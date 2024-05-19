@@ -4,10 +4,18 @@ async function FetchFileList(path, exceptionHandler) {
 	
 	if (!response.ok) {
 			if (exceptionHandler) exceptionHandler(response);
+			else ShowError(response.status);
 			return;
 	}
 	
 	const data = await response.json();	
+	
+	if (data.message && !Array.isArray(data)) {
+			if (exceptionHandler) exceptionHandler(data);
+			else ShowError(data.message);
+			return;
+	}
+	
 	let filelist = [];
 	
 	for (const file of data) {
@@ -15,6 +23,12 @@ async function FetchFileList(path, exceptionHandler) {
 	}
 	
 	return filelist;
+}
+
+function ShowError(message) {
+	let e = document.createElement('errormsg');
+	e.innerText = message;
+	document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'));
 }
 
 function PromiseEvent(target, event) {
