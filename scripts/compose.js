@@ -23,7 +23,7 @@ var loading_dom_target;
 
 			case 'js': break;
 			case 'forbid':
-				components[name] = { forbid: true, dom = null };
+				components[name] = { forbid: true, dom: null };
 				return;
 			default: path = fetch(path, { credentials: "omit" });
 		}
