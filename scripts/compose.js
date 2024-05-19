@@ -36,7 +36,7 @@ var loading_dom_target;
 		files = /\/([^\/]+)$/.exec(files);
 		if (files) {
 			files = files[1];
-			let x = /(.+)\.[^\.]*$/.exec(files);
+			let x = /^(.+)\.[^\.]*$/.exec(files);
 			if (x) files = x[1];
 		}
 	}
