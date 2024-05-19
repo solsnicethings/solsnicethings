@@ -91,7 +91,7 @@ var loading_dom_target;
 				switch (component) {
 					case 'title':
 						if (resolver.txt || resolver.html) jsprop = { placement: 'first', scope: 'header', containerElement: 'h1' };
-						else jsprop = { placement: 'first',  scope: 'header', titleElement: 'h1', titleText = document.title, containerElement = null };
+						else jsprop = { placement: 'first',  scope: 'header', titleElement: 'h1', titleText: document.title, containerElement = null };
 						break;
 					case 'header':
 						if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'header' };
