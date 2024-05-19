@@ -6,7 +6,7 @@ async function FetchFileList(path, exceptionHandler) {
 			if (exceptionHandler) exceptionHandler(response);
 			else {
 				exceptionHandler = ShowError(response.status);
-				response.json().then(result => if (result.message) exceptionHandler.innerText += ': ' + result.message);
+				response.json().then(result => { if (result.message) exceptionHandler.innerText += ': ' + result.message; });
 			}
 			return;
 	}
