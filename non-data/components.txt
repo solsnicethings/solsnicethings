@@ -1,0 +1,86 @@
+Components:
+
+	files with contents and code, bundled by name and fetched with javascript
+	when multiple files compete for the same role under a name, the one that is stored in the page name specific structure takes precedence
+		
+	the applicable file roles are:
+	
+		prevention: <component-name>.forbid
+			causes the component not to be processed, even if loading has begun
+			where this component file is in scope, it can not be turned off again
+			
+		content: <component-name>.txt or <component-name>.html
+			the .txt file will inject as text
+			the .html file will inject as html
+			
+		code: <component-name>.js
+			will execute after the rest of the matching component files with different extensions have been processed
+			
+		config: <component-name>.jsprop
+			json object file
+			
+		Consideration: script elements in html
+			the parsing uses a container element and innerHTML
+			this means a script will not execute at that time
+			however, I am unsure, and need not know at this time, if the script-elements can trigger as I move the elements
+				once, when assigning the container to its spot in the document
+				or for each immediate descendant of the container
+			when moving descendants (emptying and losing the container) the top-level SCRIPT elements are filtered out
+	
+	the location of the injection depends a little on its name (footer, title and so on) and is directly controlled by the .jsprop file
+	
+	the injection defaults to appearing in a <fetched> element container
+	.jsprop can force it to be transferred from fetched directly into the document, but this is not assumed to be desirable
+
+	.jsprop should provide a json object with guiding properties
+	
+	jsprop json properties:
+	
+		titleText: defaults to the name of the component
+		titleElement: defaults to h3
+		
+		the html source will replace the title specification unless titleElement has been explicitly set
+
+		dependency: single component name or array of component names, each needing to load before this one
+		
+		tryscope: if specified, names another component which has to resolve first, and which becomes the scope if it produces a node
+			if no node is returned, falls back to scope
+		scope: if specified, names  another component which has to resolve if no node was returned from tryscope
+			if not specified, scope is document.body
+			if no node is produced, this component stops processing and produces no node
+		query: a selector from the scope, which defaults to body, indicating where in the document this component will be injected
+		
+		placement: before|after|first|last|default
+			place it before, after, first within or last directly within the referenced scope
+			default placement is directly within the referenced scope, honouring the more stringent demands of other placed components
+
+		
+		containerElement:
+			default = 'fetched'
+			null = none, export the generated contents from the temporary container element
+			string = container tag name (in place of 'fetched')
+
+		the container element, after loading completes, will be classed
+			.txt or .html or .other
+		
+		writenameattribute: an attribute that will be set on the dom element/container to the component name
+		
+	if a scope is called for and not defined, the default component provided will be
+		an element with id equal to the scope name; either preexisting or generated from defaults
+		the title scope will get the document title
+	if a component has no jsprop it will determine scope and placement as follows:
+			main: body element, default placement
+			title: body element, first
+			header: title component, after (or before, if it makes more sense visually)
+			footer: body, last
+			other: main component, default placement
+	header and title special defaults without jsprop:
+		title =
+			if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'h1' };
+			else jsprop = { placement: 'first', titleElement: 'h1', titleText = document.title, containerElement = null };
+		header =
+			if (resolver.txt || resolver.html) jsprop = { placement: 'after', scope: 'title', containerElement: 'h2' };
+			else jsprop = { placement: 'after', scope: 'title', titleElement: 'h2', containerElement = null };
+			
+	title component is added unless you have a title.forbid file in scope
+	header is not automatically added, and unlike title it does not grab the document title for a default

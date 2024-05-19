@@ -1,0 +1,1 @@
+.pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
