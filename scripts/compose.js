@@ -31,13 +31,11 @@ var loading_dom_target;
 		components[name] = exists;
 	}
 	
-	let files = /(^|\/)([^\/]+)\.[^\.]*$/.exec(window.location);
-	if (files) files = files[2];
-	else {
-		files = /(^|\/)([^\/]+)$/.exec(window.location);
-		if (files) files = files[2];
-		else files = 'index';
-	}
+	let files = /(^|\/)([^\/]+)(\.[^\.]+)?$/.exec(window.location);
+	if (files) {
+		if (files[1] + files[2] == window.location) files = 'index';
+		else files = files[2];
+	} else files = 'index';
 	files = await FetchFileList('/components/byfilename/' + files);
 	
 	if (files)
