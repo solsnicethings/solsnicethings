@@ -30,12 +30,17 @@ var loading_dom_target;
 		exists[ext] = path;
 		components[name] = exists;
 	}
-	
-	let files = /(^|\/)([^\/]+)(\.[^\.]+)?$/.exec(window.location);
+
+	let files = location.pathname;
 	if (files) {
-		if (files[1] + files[2] == window.location) files = 'index';
-		else files = files[2];
-	} else files = 'index';
+		files = /\/([^\/]+)$/.exec(files);
+		if (files) {
+			files = files[1];
+			let x = /(.+)\.[^\.]*$/.exec(files);
+			if (x) files = x[1];
+		}
+	}
+	if (!files) files = 'index';
 	files = await FetchFileList('/components/byfilename/' + files);
 	
 	if (files)
