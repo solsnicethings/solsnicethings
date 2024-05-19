@@ -4,17 +4,13 @@ async function FetchFileList(path, exceptionHandler) {
 	
 	if (!response.ok) {
 			if (exceptionHandler) exceptionHandler(response);
-			else ShowError(response.status);
+			else {
+				ShowError(response.status + ': ' + response.text());
+			}
 			return;
 	}
 	
 	const data = await response.json();	
-	
-	if (data.message && !Array.isArray(data)) {
-			if (exceptionHandler) exceptionHandler(data);
-			else ShowError(data.message);
-			return;
-	}
 	
 	let filelist = [];
 	

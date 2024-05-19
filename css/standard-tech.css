@@ -5,3 +5,4 @@ footer > buttons { padding-left: 51vw; flex-direction: row-reverse; }
 buttons { display: flex; flex-wrap: wrap; }
 buttons > * { display: block; border: 0.1em dashed; border-radius: 19%; margin-bottom: 0.2em; margin-left: 3em; padding: 0.2em; font-weight: bold; text-decoration: none; }
 
+errormsg { display: block; padding: 0.1em; color: red; background-color: #EEA; border: solid 1px black; margin: 0.2em; white-space: pre-wrap; }
