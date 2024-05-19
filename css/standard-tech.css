@@ -1,5 +1,8 @@
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
 
-footer>links { width: 80vw; padding-left: 40vw; flex-direction: row-reverse; }
+footer > u { position: absolute; right: 39vw; }
+footer > links { width: 80vw; padding-left: 40vw; flex-direction: row-reverse; }
 links { display: flex; flex-wrap: wrap; }
 links > a { display: block; border: 2px dotted #AAA; margin-left: 3em; padding: 0.2em; font-weight: bold; }
+
+links[

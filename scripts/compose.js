@@ -103,7 +103,7 @@ var loading_dom_target;
 						else jsprop = { placement: 'first', titleElement: null, containerElement: null };
 						break;
 					case 'footer':
-						jsprop = { placement: 'last' };
+						jsprop = { placement: 'last', containerElement: 'footer' };
 						break;
 					case 'main':
 						jsprop = {};
