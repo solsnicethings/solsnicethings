@@ -5,7 +5,8 @@ async function FetchFileList(path, exceptionHandler) {
 	if (!response.ok) {
 			if (exceptionHandler) exceptionHandler(response);
 			else {
-				ShowError(response.status + ': ' + response.text());
+				exceptionHandler = ShowError(response.status);
+				response.json().then(result => if (result.message) exceptionHandler.innerText += ': ' + result.message);
 			}
 			return;
 	}
@@ -24,7 +25,7 @@ async function FetchFileList(path, exceptionHandler) {
 function ShowError(message) {
 	let e = document.createElement('errormsg');
 	e.innerText = message;
-	document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'));
+	return document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'));
 }
 
 function PromiseEvent(target, event) {
