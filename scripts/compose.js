@@ -245,7 +245,7 @@ var loading_dom_target;
 				if (cdom && !cdom.classList.contains('pendingsub')) for (;;) {
 					cdom = cdom.parentNode;
 					if (!cdom) break;
-					cdom.classList.remove('pendingsub');
+					if (cdom.classList) cdom.classList.remove('pendingsub');
 				}
 			}
 		}
