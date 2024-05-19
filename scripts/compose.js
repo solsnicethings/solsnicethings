@@ -16,6 +16,11 @@ var loading_dom_target;
 		}
 		else exists = {};
 		switch (ext) {
+			case 'css':
+				name += ':' + ext;
+				if (!components[name]) components[name] = { special: ext, ext: path };
+				return;
+
 			case 'js': break;
 			case 'forbid':
 				components[name] = { forbid: true, dom = null };
@@ -55,7 +60,7 @@ var loading_dom_target;
 	
 	async function ResolveIntoDom(component) {
 		let resolver = components[component];
-		
+				
 		if (resolver === undefined)
 		{
 			resolver = document.getElementById(component);
@@ -64,6 +69,15 @@ var loading_dom_target;
 		}
 		else if (resolver.activetask) { resolver.dom = null; return null; }
 		else if (resolver.dom !== undefined) return resolver.dom;
+		
+		switch (resolver.special) {
+			
+			case 'css':
+				LinkStylesheet(resolver.css);
+				resolver.dom = null;
+				return null;
+
+		}
 		
 		let scope;
 		
@@ -76,12 +90,12 @@ var loading_dom_target;
 			} else {
 				switch (component) {
 					case 'title':
-						if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'h1' };
-						else jsprop = { placement: 'first', titleElement: 'h1', titleText = document.title, containerElement = null };
+						if (resolver.txt || resolver.html) jsprop = { placement: 'first', scope: 'header', containerElement: 'h1' };
+						else jsprop = { placement: 'first',  scope: 'header', titleElement: 'h1', titleText = document.title, containerElement = null };
 						break;
 					case 'header':
-						if (resolver.txt || resolver.html) jsprop = { placement: 'after', scope: 'title', containerElement: 'h2' };
-						else jsprop = { placement: 'after', scope: 'title', titleElement: 'h2', containerElement = null };
+						if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'header' };
+						else jsprop = { placement: 'first', titleElement: null, containerElement = null };
 						break;
 					case 'footer':
 						jsprop = { placement: 'last' };
@@ -150,6 +164,7 @@ var loading_dom_target;
 			component_registry[component] = { dom: dom };
 			
 			let x = dom.parentNode;
+			let y;
 			
 			switch (jsprop.placement) {
 				case 'before':
@@ -169,12 +184,12 @@ var loading_dom_target;
 					files[dom] = 'last';
 					break;
 				default:
-					for (component = scope.firstChild; component && files[component] == 'first'; component = component.nextSibling);
-					scope.insertBefore(dom, component);				
+					for (y = scope.firstChild; y && files[y] == 'first'; y = y.nextSibling);
+					scope.insertBefore(dom, y);				
 			}
 			
 			if (x) {
-				let y = dom.nextSibling;
+				y = dom.nextSibling;
 				while (x.firstChild) {
 					switch (x.firstChild.nodeType) {
 						case 2: // attribute
@@ -191,9 +206,11 @@ var loading_dom_target;
 		}
 
 		if (resolver.js) {
-			if (dom) dom.className += ' pendingscript';
-			
+		
 			let x = document.createElement(script);
+			component_registry[x] = component;
+			
+			if (dom) dom.className += ' pendingscript';
 			
 			let y = PromiseEvent(x, 'load');
 			

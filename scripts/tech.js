@@ -29,9 +29,16 @@ function PromiseEvent(target, event) {
 
 function RunWhenDomReady(e) {
 	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", e);
+		document.addEventListener("DOMContentLoaded", e);
 	} else {
 		e();
 	}
 }
 
+function LinkStylesheet(fileName) {
+  var link = document.createElement("link");
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.href = fileName;
+  return document.head.appendChild(link);
+}

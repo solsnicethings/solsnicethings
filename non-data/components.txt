@@ -16,8 +16,25 @@ Components:
 		code: <component-name>.js
 			will execute after the rest of the matching component files with different extensions have been processed
 			
+			when the script initially executes, the component name is
+				component_registry[document.currentScript]
+			
+			the full component is
+				component_registry['component name']
+			
+			the component dom container/node is
+				component_registry['component name'].dom
+				
+			the script can populate the component with other properties
+			
 		config: <component-name>.jsprop
 			json object file
+		
+		extra component documents:
+			these do not interact with the other component file types, except the .forbid token file
+			the component system means a general document can be name-sensitively replaced with a page specific entry
+		
+				style: <component-name>.css
 			
 		Consideration: script elements in html
 			the parsing uses a container element and innerHTML
@@ -70,17 +87,17 @@ Components:
 		the title scope will get the document title
 	if a component has no jsprop it will determine scope and placement as follows:
 			main: body element, default placement
-			title: body element, first
-			header: title component, after (or before, if it makes more sense visually)
+			title: header component, first
+			header: body element, first
 			footer: body, last
 			other: main component, default placement
 	header and title special defaults without jsprop:
-		title =
-			if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'h1' };
-			else jsprop = { placement: 'first', titleElement: 'h1', titleText = document.title, containerElement = null };
-		header =
-			if (resolver.txt || resolver.html) jsprop = { placement: 'after', scope: 'title', containerElement: 'h2' };
-			else jsprop = { placement: 'after', scope: 'title', titleElement: 'h2', containerElement = null };
+		title
+			if (resolver.txt || resolver.html) jsprop = { placement: 'first', scope: 'header', containerElement: 'h1' };
+			else jsprop = { placement: 'first',  scope: 'header', titleElement: 'h1', titleText = document.title, containerElement = null };
+		header
+			if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'header' };
+			else jsprop = { placement: 'first', titleElement: null, containerElement = null };
 			
 	title component is added unless you have a title.forbid file in scope
 	header is not automatically added, and unlike title it does not grab the document title for a default
