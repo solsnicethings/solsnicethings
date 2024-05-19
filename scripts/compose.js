@@ -41,7 +41,7 @@ var loading_dom_target;
 		}
 	}
 	if (!files) files = 'index';
-	files = await FetchFileList('/components/byfilename/' + files);
+	files = await FetchFileList('components/byfilename/' + files);
 	
 	if (files)
 	
@@ -51,7 +51,9 @@ var loading_dom_target;
 		addcomponent(file, fileinfo[2], fileinfo[3]);
 	}
 
-	files = await FetchFileList('/components/all');
+	files = await FetchFileList('components/all');
+	
+	if (files)
 		
 	for (const file of files) {
 		let fileinfo  = /(^|\/)([^\/]+)\.([^\.]+)$/.exec(file);
