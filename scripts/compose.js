@@ -126,9 +126,12 @@ var loading_dom_target;
 			
 			if (!scope) {
 				scope = jsprop.scope;
-				if (scope) { scope = await ResolveIntoDom(scope); if (!scope) {
-					if (scope === null) { resolver.dom = null; newResolution = true; return null; }
-					return;
+				if (scope) {
+					scope = await ResolveIntoDom(scope);
+					if (!scope) {
+						if (scope === null) { resolver.dom = null; newResolution = true; return null; }
+						return;
+					}
 				}
 				else scope = document.body;	
 			}
