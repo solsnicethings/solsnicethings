@@ -79,12 +79,10 @@ var loading_dom_target;
 
 		}
 		
-		let scope;
+		let scope, jsprop = resolver.jsprop;
 		
 		resolver.activetask = true;
 		try {
-			
-			let jsprop = resolver.jsprop;
 			if (jsprop) {
 				jsprop = await jsprop.json();
 			} else {
