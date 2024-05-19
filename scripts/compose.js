@@ -84,9 +84,9 @@ var loading_dom_target;
 		resolver.activetask = true;
 		try {
 			if (jsprop) {
-				if (jsprop.json)
+				if (jsprop.then)
 				{
-					jsprop = await jsprop.json();
+					jsprop = await (await jsprop).json();
 					resolver.jsprop = jsprop;
 				}
 			} else {
@@ -139,11 +139,11 @@ var loading_dom_target;
 		if (jsprop.titleElement) dom.appendChild(document.createElement(jsprop.titleElement)).innerText = jsprop.titleText;
 		
 		if (resolver.html) {
-			dom.innerHTML = (await resolver.html.text()).trim();
+			dom.innerHTML = (await (await resolver.html).text()).trim();
 			dom.className = 'html';
 		} else {
 			if (resolver.txt) {
-				dom.innerText = await resolver.txt.text();
+				dom.innerText = await (await resolver.txt).text();
 				dom.className = 'txt';
 			} else  dom.className = 'other';
 			if (jsprop.titleElement === undefined && jsprop.scope == 'main')
