@@ -156,8 +156,9 @@ var loading_dom_target;
 		}
 		
 		if (jsprop.containerElement === null) dom = dom.firstChild;
+		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;		
 		
-		if (dom && jsprop.writenameattribute) dom.setAttribute(jsprop.writenameattribute, component);
+		if (dom && resolver.writenameattribute) dom.setAttribute(resolver.writenameattribute, component);
 		
 		if (jsprop.requiresSubcomponents)
 			dom.className += ' pendingsub';
