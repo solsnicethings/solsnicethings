@@ -9,7 +9,7 @@
 			dom.innerText = 'No pages were retrieved';
 			return;
 		}
-		dom = dom.appendChild(document.createElement('links'))
+		dom = dom.appendChild(document.createElement('buttons'))
 		
 		for (const p of pages) {
 			let a = document.createElement('a');

@@ -1,7 +1,7 @@
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
 
 footer > u { position: absolute; right: 51vw; }
-footer > links { padding-left: 51vw; flex-direction: row-reverse; }
-links { display: flex; flex-wrap: wrap; }
-links > a { display: block; border: 0.1em dashed; border-radius: 19%; margin-bottom: 0.2em; margin-left: 3em; padding: 0.2em; font-weight: bold; text-decoration: none; }
+footer > buttons { padding-left: 51vw; flex-direction: row-reverse; }
+buttons { display: flex; flex-wrap: wrap; }
+buttons > * { display: block; border: 0.1em dashed; border-radius: 19%; margin-bottom: 0.2em; margin-left: 3em; padding: 0.2em; font-weight: bold; text-decoration: none; }
 
