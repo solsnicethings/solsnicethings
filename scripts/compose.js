@@ -242,7 +242,7 @@ var loading_dom_target;
 			cdom = component_registry[cdom];
 			if (cdom) { 
 				cdom = cdom.dom;
-				if (cdom && !cdom.contains('pendingsub')) for (;;) {
+				if (cdom && !cdom.classList.contains('pendingsub')) for (;;) {
 					cdom = cdom.parentNode;
 					if (!cdom) break;
 					cdom.classList.remove('pendingsub');
