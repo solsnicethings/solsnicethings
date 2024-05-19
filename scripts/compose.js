@@ -212,7 +212,7 @@ var loading_dom_target;
 
 		if (resolver.js) {
 		
-			let x = document.createElement(script);
+			let x = document.createElement('script');
 			component_registry[x] = component;
 			
 			if (dom) dom.className += ' pendingscript';
