@@ -95,7 +95,7 @@ var loading_dom_target;
 						break;
 					case 'header':
 						if (resolver.txt || resolver.html) jsprop = { placement: 'first', containerElement: 'header' };
-						else jsprop = { placement: 'first', titleElement: null, containerElement = null };
+						else jsprop = { placement: 'first', titleElement: null, containerElement: null };
 						break;
 					case 'footer':
 						jsprop = { placement: 'last' };
