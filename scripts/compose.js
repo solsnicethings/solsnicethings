@@ -84,7 +84,11 @@ var loading_dom_target;
 		resolver.activetask = true;
 		try {
 			if (jsprop) {
-				jsprop = await jsprop.json();
+				if (jsprop.json)
+				{
+					jsprop = await jsprop.json();
+					resolver.jsprop = jsprop;
+				}
 			} else {
 				switch (component) {
 					case 'title':
