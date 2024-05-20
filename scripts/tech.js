@@ -119,7 +119,7 @@ function RunWhenDomReady(e) {
 }
 
 RunWhenDomReady(()=>{
-	CompleteComposeScript.then(()=>{
+	CompleteComposeScript.promise.then(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink';
 		e.setAttribute("href", "?reload");
