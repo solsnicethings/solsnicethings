@@ -4,4 +4,4 @@ header { padding-left: 2em; padding-right: 1em; padding-top: 0.1em; padding-bott
 header ~ :not(footer) { font-size: 1.25em; }
 h1, h2, h3, h4, h5 { padding-left: 1em; }
 
-action { float: right; margin-left: 0.1em; border: outset 0.2em rgba(250,200,100,0.4); border-radius: 5%; min-width: 1.5em; font-weight: bold; }
+action { display: inline-block; margin-left: 0.1em; border: outset 0.2em rgba(250,200,100,0.4); border-radius: 5%; min-width: 1.5em; font-weight: bold; }
