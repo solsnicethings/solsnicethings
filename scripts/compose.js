@@ -74,11 +74,8 @@ const CompleteComposeScript = PromiseAnything();
 		else if (resolver.activetask) { resolver.dom = null; return null; }
 		else if (resolver.dom !== undefined) return resolver.dom;
 		
-		switch (resolver.special) {
-			
-			default:
-				return resolver.dom = AddDocument(resolver[resolver.special]);
-
+		if (resolver.special) {
+			return resolver.dom = AddDocument(resolver[resolver.special]);
 		}
 		
 		let scope, jsprop = resolver.jsprop;
