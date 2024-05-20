@@ -1,0 +1,24 @@
+html {
+  --bc: #e4f4f4;
+  --fc: #BBB;
+  
+  --mutedfc: #fff;
+  --mutedbc: #232;
+
+  --disabledfc: #000;
+  --disabledbc: #888;
+
+  --enabledfc: #fff;
+  --enabledbc: #464;
+  
+  --sharpfc: #100;
+  --sharpbc: #bca;
+  
+  --standoutfc: #000;
+  --standoutbc: #bbbbbb;
+  --failfc: #300;
+  --failbc: #fcc;
+  
+  --linkemphasisbc: rgba(0,0,0,0.5);
+}
+

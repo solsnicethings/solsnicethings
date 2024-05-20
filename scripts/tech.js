@@ -135,7 +135,7 @@ RunWhenDomReady(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink';
 		e.setAttribute("href", "?reload");
-		e.innerText = 'Reload scripts and components';
+		e.innerText = 'Reload page components';
 		e.style['float'] = 'right';
 		document.body.insertBefore(e, document.body.firstElementChild);
 		e = document.querySelector('body > footer:last-of-type');

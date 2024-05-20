@@ -1,5 +1,6 @@
 @import "standard-dark.css" screen and (prefers-color-scheme: dark);
-@import "standard-light.css" not (screen and (prefers-color-scheme: dark));
+@import "standard-light.css" screen and (prefers-color-scheme: light);
+@import "standard-light.css" not screen;
 
 body {
 	color: var(--fc);
@@ -8,6 +9,7 @@ body {
 
 a {
 	color: var(--enabledfc);
+	background-color: var(--linkemphasisbc);
 }
 a:visited {
 	color: var(--mutedfc);
