@@ -88,7 +88,8 @@ function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
 	e.innerText = message;
 	elementTypeOverride = e.appendChild(document.createElement('action'));
 	elementTypeOverride.addEventListener('click', x => { x = x.target.parentNode; x.parentNode.removeChild(x); });
-	return document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'));
+	RunWhenDomReady(()=>{document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'))});
+	return e;
 }
 
 function PromiseEvent(target, event) {
