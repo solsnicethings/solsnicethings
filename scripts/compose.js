@@ -41,7 +41,7 @@ var loading_dom_target;
 		}
 	}
 	if (!files) files = 'index';
-	files = await FetchFileList('components/byfilename/' + files);
+	files = await FetchFileList('components/byfilename/' + files, Ignore);
 	
 	if (files)
 	
