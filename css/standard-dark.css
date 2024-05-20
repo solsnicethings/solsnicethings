@@ -10,5 +10,8 @@ html {
 
   --enabledfc: #699;
   --enabledbc: #113;
+  
+  --sharpfc: #CCC;
+  --sharpbc: #0a0a0a;
 }
 
