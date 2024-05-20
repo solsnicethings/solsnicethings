@@ -30,10 +30,9 @@ btn { cursor: pointer; user-select: none; }
 
 iframe { width: 25vw; height: 20vh; }
 
-/*@media (hover: hover) {
-	:not(:hover) > action { visibility: hidden; }
-	.diagnostic:hover { text-decoration: line-through; }
-}*/
+@media (hover: hover) {
+	.diagnostic:not(:hover) { opacity: 0.5; }
+}
 action { cursor: arrow; white-space: pre-wrap; user-select: none; min-width: 1.5em; text-align: center;
 /*display: inline-block;
 position: relative;
