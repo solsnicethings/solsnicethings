@@ -49,12 +49,6 @@ btn.disabled, buttons > .disabled:not(a), .menu > .disabled:not(a) {
 	color: var(--disabledfc);
 	background-color: var(--disabledbc);
 }
-
- .active [activator] {
-	color: var(--mutedfc);
-	background-color: none;
-	background: linear-gradient(var(--mutedbc), 90%, rgba(0,0,0,0));
- }
  
  header {
 	 color: var(--sharpfc);
