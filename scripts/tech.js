@@ -74,9 +74,9 @@ function AddDocument(srchref, target = null) {
 				x.setAttribute('src', srchref);
 			}
 		}
-		else if (target === null) target = document.head;
 		component_registry[srchref] = x;
 	}
+	if (target === null) target = document.head;
 	if (target != x.parentNode) target.appendChild(x);
 	if (x) return x;
 	return null;
