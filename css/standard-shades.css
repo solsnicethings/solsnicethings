@@ -2,6 +2,28 @@
 @import "standard-light.css" screen and (prefers-color-scheme: light);
 @import "standard-light.css" not screen;
 
+  .bc { background-color: var(--bc) }
+  .fc { color: var(--fc) }
+  
+  .mutedbc { background-color: var(--mutedbc) }
+  .mutedfc { color: var(--mutedfc) }
+  
+  .disabledbc { background-color: var(--disabledbc) }
+  .disabledfc { color: var(--disabledfc) }
+
+  .enabledbc { background-color: var(--enabledbc) }
+  .enabledfc { color: var(--enabledfc) }
+  
+  .sharpbc { background-color: var(--sharpbc) }
+  .sharpfc { color: var(--sharpfc) }
+  
+  .standoutbc { background-color: var(--standoutbc) }
+  .standoutfc { color: var(--standoutfc) }
+  .failbc { background-color: var(--failbc) }
+  .failfc { color: var(--failfc) }
+  .linkemphasisbc { background-color: var(--linkemphasisbc) }
+  .actionemphasisbc { color: var(--actionemphasisbc) }
+
 body {
 	color: var(--fc);
 	background-color: var(--bc);
@@ -42,9 +64,6 @@ btn.disabled, buttons > .disabled:not(a), .menu > .disabled:not(a) {
 	 box-sizing: border-box;
 	 border-radius: 32% 0 0 0;
  }
-
-footer small { color: var(--sharpfc); }
-footer > :not(small):not(buttons) { opacity: 0.63; font-family: 'courier new', courier, monospace; }
  
  footer {
 	background-color: var(--sharpbc);

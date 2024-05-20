@@ -5,3 +5,4 @@ header ~ :not(footer) { font-size: 1.25em; }
 h1, h2, h3, h4, h5 { padding-left: 1em; }
 
 action { display: inline-block; margin-left: 0.1em; border: outset 0.2em rgba(250,200,100,0.4); border-radius: 5%; min-width: 1.5em; font-weight: bold; }
+footer > :not(cap):not(buttons) { opacity: 0.63; font-family: 'courier new', courier, monospace; }

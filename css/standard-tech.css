@@ -1,7 +1,9 @@
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
 
-.righthalflabel { position: absolute; right: 50vw; }
+.righthalflabel { position: absolute; right: 50vw; text-align: right; }
 .righthalflabel + * { padding-left: 51vw; }
+.muddled { background-color: rgba(128, 128, 128, 0.3); }
+cap {  font-variant: small-caps; }
 
 .helplink { float: right; margin-left: 2em; padding-right: 1.5em; }
 .home .gohome { visibility: hidden; }
