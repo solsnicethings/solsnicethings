@@ -26,13 +26,13 @@ btn { cursor: pointer; user-select: none; }
 .menu > :not(btn):not(a):not(input) > :not(btn:first-of-type) { display: none; }
 .menu:empty { display: none; }
 
-.diagnostic { display: block; padding: 0.1em; border: solid 1px black; margin: 0.2em; white-space: pre-wrap; font-family: monospace; padding-right: 1em; font-size: 0.9em; }
+.diagnostic { display: block; padding: 0.1em; border: solid 1px black; margin: 0.2em; white-space: pre-wrap; font-family: monospace; padding-right: 1em; }
 
 iframe { width: 25vw; height: 20vh; }
 
 @media (hover: hover) {
 	:not(:hover) > action { visibility: hidden; }
-	.diagnostic:hover { background-color: rgba(255,255,255,0.5); color: #000; }
+	.diagnostic:hover { text-decoration: line-through; }
 }
 action { cursor: arrow; white-space: pre-wrap; user-select: none; min-width: 1.5em; text-align: center;
 /*display: inline-block;

@@ -86,8 +86,6 @@ function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
 	let e = document.createElement(elementTypeOverride);
 	e.className = 'diagnostic';
 	e.innerText = message;
-	elementTypeOverride = e.appendChild(document.createElement('action'));
-	elementTypeOverride.addEventListener('click', x => { x = x.target.parentNode; x.parentNode.removeChild(x); });
 	RunWhenDomReady(()=>{document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'))});
 	return e;
 }
@@ -123,6 +121,16 @@ function RunWhenDomReady(e) {
 }
 
 RunWhenDomReady(()=>{
+	let purgenotifs = document.createElement('action');
+	purgenotifs.innerText = 'purge diagnostic messages';
+	purgenotifs.addEventListener('click', x => {
+		for (;;) {
+			x = document.querySelector('.diagnostic');
+			if (!x) return;
+			x.parentNode.removeChild(x);
+		}
+	});
+	document.body.appendChild(purgenotifs);
 	CompleteComposeScript.promise.then(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink';
@@ -130,6 +138,8 @@ RunWhenDomReady(()=>{
 		e.innerText = 'Reload scripts and components';
 		e.style['float'] = 'right';
 		document.body.insertBefore(e, document.body.firstElementChild);
+		e = document.querySelector('body > footer:last-of-type');
+		if (e) e.insertBefore(purgenotifs, e.firstElementChild);
 	});
 });
 
