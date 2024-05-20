@@ -15,8 +15,12 @@ async function FetchFileList(path, exceptionHandler) {
 	
 	let filelist = [];
 	
-	for (const file of data) {
-		if (file.type == 'file') filelist.push(file.path); 
+	for (let file of data) {
+		if (file.type == 'file') {
+			file = file.path;
+			if (!file.startsWith('/')) file = '/' + file;
+			filelist.push(file); 
+		}
 	}
 	
 	return filelist;
