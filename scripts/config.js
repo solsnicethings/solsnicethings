@@ -3,5 +3,4 @@ const web_service = 'https://helloworld-s7fgrxt6mq-ew.a.run.app';
 const github_user = 'solsnicethings';
 const github_repo = github_user + '.github.io';
 
-var active_component_key;
 const component_registry = {};

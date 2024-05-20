@@ -1,0 +1,4 @@
+footer { padding-right: 1em; padding-left: 1em; }
+header { padding-left: 2em; padding-right: 1em; padding-top: 0.1em; padding-bottom: 0.2em; }
+header ~ :not(footer) { font-size: 1.25em; }
+h1, h2, h3, h4, h5 { padding-left: 1em; }

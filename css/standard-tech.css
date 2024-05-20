@@ -1,12 +1,29 @@
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
 
-footer { padding-right: 1em; padding-left: 1em; }
-
 .righthalflabel { position: absolute; right: 50vw; }
 .righthalflabel + * { padding-left: 51vw; }
 
+.gohome { float: right; }
+.home .gohome { visibility: hidden; }
+
+.menu { padding-left: 0.6em; padding-right: 0.6em; }
+.workspace { width: 98vw; }
+.workspace td:first-child { width: 99%; }
+.workspace td:not(:first-child) { white-space: nowrap; }
+
+td { vertical-align: top; }
+
 footer > buttons { flex-direction: row-reverse; }
 buttons { display: flex; flex-wrap: wrap; }
-buttons > * { display: block; border: 0.1em dashed; border-radius: 19%; margin-bottom: 0.2em; margin-left: 3em; padding: 0.2em; font-weight: bold; text-decoration: none; }
+.menu > *, buttons > * { display: block; margin-bottom: 0.2em; margin-left: 3em; margin-top: 0.2em; margin-right: 3em; text-decoration: none; border-radius: 22%; }
+.menu > a, buttons > a { border: 0.1em dashed; padding: 0.2em; }
+.menu > :not(a), buttons > :not(a) { border: 0.2em outset; padding-left: 0.7em; padding-right: 0.7em; padding-top: 0.1em; padding-bottom: 0.1em; cursor: pointer; user-select: none; }
+btn { cursor: pointer; user-select: none; }
+.active [activator] { display: block; font-size: 1.05em; padding-bottom: 0.2em; padding-left: 1em; padding-right: 5em; border: solid 0.2em rgba(0,0,0,0); border-radius: 0.8em; margin-bottom: 1em; }
+
+.menu > :not(btn):not(a):not(input) > :not(btn:first-of-type) { display: none; }
+.menu:empty { display: none; }
 
 errormsg { display: block; padding: 0.1em; color: red; background-color: #EEA; border: solid 1px black; margin: 0.2em; white-space: pre-wrap; }
+
+iframe { width: 25vw; height: 20vh; }

@@ -1,5 +1,3 @@
-var loading_dom_target;
-
 ((async function () {
 	let components = {};
 		
@@ -97,7 +95,7 @@ var loading_dom_target;
 			} else {
 				switch (component) {
 					case 'title':
-						if (resolver.txt || resolver.html) jsprop = { placement: 'first', scope: 'header', containerElement: 'h1' };
+						if (resolver.txt || resolver.html) jsprop = { placement: 'last', scope: 'header', containerElement: 'h1' };
 						else jsprop = { placement: 'first',  scope: 'header', titleElement: 'h1', titleText: document.title, containerElement: null };
 						break;
 					case 'header':
@@ -108,10 +106,10 @@ var loading_dom_target;
 						jsprop = { placement: 'last', containerElement: 'footer' };
 						break;
 					case 'main':
-						jsprop = {};
+						jsprop = { containerElement: null };
 						break;
 					default:
-						jsprop = { scope: 'main' };
+						jsprop = { scope: 'main', query: 'td:not(:first-child:not(:empty))', titleElement: 'btn' , writenameattribute: 'activator' };
 				}
 			}
 			
@@ -229,7 +227,7 @@ var loading_dom_target;
 			let y = PromiseEvent(x, 'load');
 			
 			x.setAttribute('src', resolver.js);
-			document.body.appendChild(x);
+			document.head.appendChild(x);
 			
 			await y;
 			if (dom) dom.classList.remove('pendingscript');

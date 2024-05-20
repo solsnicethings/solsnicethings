@@ -28,6 +28,59 @@ async function FetchFileList(path, exceptionHandler) {
 
 function Ignore() {}
 
+function AddScript(src, returnLoadPromise = false, target = document.head) {
+	src = src.toLowerCase();
+	if (!/\//.exec(src)) src = '/scripts/plugin/' + src;
+	if (!/\.js$/.exec(src)) src += '.js';
+	let e = component_registry[src];
+	if (e) 
+		if (returnLoadPromise) return Promise.resolve(e);
+		else return src;
+
+	e = document.createElement('script');
+	e.src = src;
+	component_registry[src] = e;
+	
+	if (returnLoadPromise) src = PromiseEvent(e, 'load');
+	
+	target.appendChild(e);
+	return src;
+}
+function AddDocument(srchref, target = null) {
+	let x = component_registry[srchref];
+	if (!x) {
+		x = /\.[^\/\.]+$/.exec(srchref);
+		if (x)
+			switch (x[0].toLowerCase()) {
+				case '.css':
+				x = document.createElement('link');
+				x.setAttribute('href', srchref);
+				x.setAttribute('rel', 'stylesheet');
+				x.setAttribute('type', 'text/css');
+				break;
+				
+				case '.jpg': case '.svg': case '.png': case '.bmp':
+				case '.jpeg': case '.gif':
+				x = document.createElement('img');
+				x.setAttribute('src', srchref);
+				break;
+				
+				default: x = null; break;
+			}
+		if (!x) {
+			if (target != document.head) {
+				if (target === null) target = document.body;
+				x = document.createElement('iframe');
+				x.setAttribute('src', srchref);
+			}
+		}
+		else if (target === null) target = document.head;
+		component_registry[srchref] = x;
+	}
+	if (target != x.parentNode) target.appendChild(x);
+	return x;
+}
+
 function ShowError(message) {
 	let e = document.createElement('errormsg');
 	e.innerText = message;
@@ -38,7 +91,7 @@ function PromiseEvent(target, event) {
   return new Promise((resolve) => {
     const listener = () => {
       target.removeEventListener(event, listener);
-      resolve();
+      resolve(target);
     }
     target.addEventListener(event, listener);
   })

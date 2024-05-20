@@ -1,0 +1,32 @@
+@import "standard-dark.css" screen and (prefers-color-scheme: dark);
+@import "standard-light.css" not (screen and (prefers-color-scheme: dark));
+
+body {
+	color: var(--fc);
+	background-color: var(--bc);
+}
+
+a {
+	color: var(--enabledfc);
+}
+a:visited {
+	color: var(--mutedfc);
+}
+btn, buttons > :not(a), .menu > :not(a) {
+	color: var(--enabledfc);
+	background-color: var(--enabledbc);
+}
+btn.used, buttons > .used:not(a), .menu > .used:not(a) {
+	color: var(--mutedfc);
+	background-color: var(--mutedbc);
+}
+btn.disabled, buttons > .disabled:not(a), .menu > .disabled:not(a) {
+	color: var(--disabledfc);
+	background-color: var(--disabledbc);
+}
+
+ .active [activator] {
+	color: var(--mutedfc);
+	background-color: none;
+	background: linear-gradient(var(--mutedbc), 90%, rgba(0,0,0,0));
+ }

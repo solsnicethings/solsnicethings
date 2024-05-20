@@ -1,0 +1,14 @@
+html {
+  --bc: #1a1a1a;
+  --fc: #BBB;
+  
+  --mutedfc: #9a8;
+  --mutedbc: #232;
+
+  --disabledfc: #888;
+  --disabledbc: #222;
+
+  --enabledfc: #699;
+  --enabledbc: #113;
+}
+
