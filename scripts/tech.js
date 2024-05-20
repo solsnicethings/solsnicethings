@@ -86,7 +86,25 @@ function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
 	let e = document.createElement(elementTypeOverride);
 	e.className = 'diagnostic';
 	e.innerText = message;
-	RunWhenDomReady(()=>{document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'))});
+	//RunWhenDomReady(()=>{document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'))});
+	RunWhenDomReady(()=>{
+		document.body.appendChild(e);
+		let o = component_registry['diagnostic:observer'];
+		if (!o) { component_registry['diagnostic:observer'] = o = new MutationObserver( () => {
+			let x = document.body.lastChild;
+			if (!x || (x.nodeType == 1 && x.className == 'diagnostic')) return;
+			let a = null, s = x.previousElementSibling;
+			for (; s && s.className == 'diagnostic'; s = s.previousElementSibling) a = s;
+			if (!a) return;
+			for (s = x.previousSibling;; s = s.previousSibling) {
+				document.body.insertBefore(x, a);
+				if (!s || (s.nodeType == 1 && s.className == 'diagnostic')) return;
+				a = x;
+				x = s;
+			}
+		});}
+		o.observe(document.body, { childList: true });			
+	});
 	return e;
 }
 
@@ -124,6 +142,8 @@ RunWhenDomReady(()=>{
 	let purgenotifs = document.createElement('action');
 	purgenotifs.innerText = 'purge diagnostic messages';
 	purgenotifs.addEventListener('click', x => {
+		x = component_registry['diagnostic:observer'];
+		if (x) x.disconnect();
 		for (;;) {
 			x = document.querySelector('.diagnostic');
 			if (!x) return;
