@@ -13,5 +13,10 @@ html {
   
   --sharpfc: #CCC;
   --sharpbc: #0a0a0a;
+  
+  --standoutfc: #000;
+  --standoutbc: #882;
+  --failfc: #711;
+  --failbc: #fbb;
 }
 

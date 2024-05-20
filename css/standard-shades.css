@@ -54,3 +54,6 @@ footer > :not(small):not(buttons) { opacity: 0.63; font-family: 'courier new', c
 	 content: '';
 	 background: linear-gradient(var(--bc), 60%, var(--sharpbc));
  }
+ 
+ diagnostic { color: var(--standoutfc); background-color: var(--standoutbc); }
+ errormsg { color: var(--failfc); background-color: var(--failbc); }

@@ -5,7 +5,7 @@ async function FetchFileList(path, exceptionHandler) {
 	if (!response.ok) {
 			if (exceptionHandler) exceptionHandler(response);
 			else {
-				exceptionHandler = ShowError(response.status);
+				exceptionHandler = ShowDiagnostic(response.status, 'errormsg');
 				response.json().then(result => { if (result.message) exceptionHandler.innerText += ': ' + result.message; });
 			}
 			return;
@@ -82,9 +82,12 @@ function AddDocument(srchref, target = null) {
 	return null;
 }
 
-function ShowError(message) {
-	let e = document.createElement('errormsg');
+function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
+	let e = document.createElement(elementTypeOverride);
+	e.className = 'diagnostic';
 	e.innerText = message;
+	elementTypeOverride = e.appendChild(document.createElement('action'));
+	elementTypeOverride.addEventHandler('click', x => { x = x.target.parentNode; x.parentNode.removeChild(x); });
 	return document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'));
 }
 
@@ -138,6 +141,10 @@ RunWhenDomReady(()=>{
 		fetch = function(r, o) {
 			if (!o) o = { cache: reload };
 			else if (!o.cache) o.cache = 'reload';
+			if (!component_registry["force:reload"]) { 
+				component_registry["force:reload"]=ShowDiagnostic("Defaulting to reload from server when fetching page parts.\nYou may need to force reload the page itself too. CTRL+F5 may do it.");
+			}
+			ShowDiagnostic("with " + o.cache + ", fetch: " + r);
 			return nativeFetch(r, o);
 		}
 	}	
