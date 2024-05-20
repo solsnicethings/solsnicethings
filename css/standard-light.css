@@ -1,6 +1,6 @@
 html {
   --bc: #e4f4f4;
-  --fc: #BBB;
+  --fc: #111;
   
   --mutedfc: #fff;
   --mutedbc: #232;
@@ -12,7 +12,7 @@ html {
   --enabledbc: #464;
   
   --sharpfc: #100;
-  --sharpbc: #bca;
+  --sharpbc: #cfdfca;
   
   --standoutfc: #000;
   --standoutbc: #bbbbbb;
