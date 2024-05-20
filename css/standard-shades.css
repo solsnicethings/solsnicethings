@@ -39,9 +39,11 @@ btn.disabled, buttons > .disabled:not(a), .menu > .disabled:not(a) {
 	 box-sizing: border-box;
 	 border-radius: 32% 0 0 0;
  }
+
+footer small { color: var(--sharpfc); }
+footer > :not(small):not(buttons) { opacity: 0.63; font-family: 'courier new', courier, monospace; }
  
  footer {
-	color: var(--sharpfc);
 	background-color: var(--sharpbc);
 	border-bottom: double 0.4em rgba(128,128,128,0.2);
 	border-left: double 1em rgba(128,128,128,0.2);
