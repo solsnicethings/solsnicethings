@@ -33,7 +33,7 @@ iframe { width: 25vw; height: 20vh; }
 @media (hover: hover) {
 	.diagnostic:not(:hover) { opacity: 0.5; }
 }
-action { cursor: arrow; white-space: pre-wrap; user-select: none; min-width: 1.5em; text-align: center;
+action { cursor: pointer; white-space: pre-wrap; user-select: none; min-width: 1.5em; text-align: center;
 /*display: inline-block;
 position: relative;
 left: 100%;
