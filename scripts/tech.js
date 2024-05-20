@@ -26,6 +26,8 @@ async function FetchFileList(path, exceptionHandler) {
 	return filelist;
 }
 
+function Ignore() {}
+
 function ShowError(message) {
 	let e = document.createElement('errormsg');
 	e.innerText = message;
