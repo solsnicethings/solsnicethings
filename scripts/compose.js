@@ -46,9 +46,9 @@ var loading_dom_target;
 	if (files)
 	
 	for (const file of files) {
-		let fileinfo  = /(^|\/)([^\/]+)\.([^\.]+)$/.exec(file);
+		let fileinfo  = /\/([^\/]+)\.([^\.\/]+)$/.exec(file);
 		if (!fileinfo) continue;
-		addcomponent(file, fileinfo[2], fileinfo[3]);
+		addcomponent(file, fileinfo[1], fileinfo[2]);
 	}
 
 	files = await FetchFileList('components/all');
@@ -56,9 +56,9 @@ var loading_dom_target;
 	if (files)
 		
 	for (const file of files) {
-		let fileinfo  = /(^|\/)([^\/]+)\.([^\.]+)$/.exec(file);
+		let fileinfo  = /\/([^\/]+)\.([^\.\/]+)$/.exec(file);
 		if (!fileinfo) continue;
-		addcomponent(file, fileinfo[2], fileinfo[3]);
+		addcomponent(file, fileinfo[1], fileinfo[2]);
 	}
 	
 	let newResolution;
