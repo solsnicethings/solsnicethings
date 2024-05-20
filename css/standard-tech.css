@@ -19,7 +19,9 @@ buttons { display: flex; flex-wrap: wrap; }
 .menu > a, buttons > a { border: 0.1em dashed; padding: 0.2em; }
 .menu > :not(a), buttons > :not(a) { border: 0.2em outset; padding-left: 0.7em; padding-right: 0.7em; padding-top: 0.1em; padding-bottom: 0.1em; cursor: pointer; user-select: none; }
 btn { cursor: pointer; user-select: none; }
-.active [activator] { display: block; font-size: 1.05em; padding-bottom: 0.2em; padding-left: 1em; padding-right: 5em; border: solid 0.2em rgba(0,0,0,0); border-radius: 0.8em; margin-bottom: 1em; }
+
+.active btn[activator],
+.active > [activator]:not(btn) > btn:first-of-type { display: block; font-size: 1.05em; padding-bottom: 0.2em; padding-left: 1em; padding-right: 5em; border: solid 0.2em rgba(0,0,0,0); border-radius: 0.8em; margin-bottom: 1em; }
 
 .menu > :not(btn):not(a):not(input) > :not(btn:first-of-type) { display: none; }
 .menu:empty { display: none; }
