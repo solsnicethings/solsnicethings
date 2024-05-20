@@ -3,7 +3,7 @@
 .righthalflabel { position: absolute; right: 50vw; }
 .righthalflabel + * { padding-left: 51vw; }
 
-.gohome { float: right; }
+.helplink { float: right; margin-left: 2em; padding-right: 1.5em; }
 .home .gohome { visibility: hidden; }
 
 .menu { padding-left: 0.6em; padding-right: 0.6em; }

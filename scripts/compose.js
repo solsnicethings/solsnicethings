@@ -1,3 +1,4 @@
+const CompleteComposeScript = PromiseAnything();
 ((async function () {
 	let components = {};
 		
@@ -75,10 +76,8 @@
 		
 		switch (resolver.special) {
 			
-			case 'css':
-				LinkStylesheet(resolver.css);
-				resolver.dom = null;
-				return null;
+			default:
+				return resolver.dom = AddDocument(resolver[resolver.special]);
 
 		}
 		
@@ -265,5 +264,7 @@
 		while (files = document.querySelector('.pendingsub')) files.parentNode.removeChild(files);
 		while (files = document.querySelector('.pendingcontents:empty')) files.parentNode.removeChild(files);
 		while (files = document.querySelector('.pendingcontents')) files.classList.remove('pendingcontents');
+		
+		CompleteComposeScript.resolveIt();
 	});
 })());

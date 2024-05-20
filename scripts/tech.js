@@ -78,7 +78,8 @@ function AddDocument(srchref, target = null) {
 		component_registry[srchref] = x;
 	}
 	if (target != x.parentNode) target.appendChild(x);
-	return x;
+	if (x) return x;
+	return null;
 }
 
 function ShowError(message) {
@@ -96,6 +97,18 @@ function PromiseEvent(target, event) {
     target.addEventListener(event, listener);
   })
 }
+function PromiseAnything() {
+	let promise, resolve, reject;
+	promise = new Promise((y, n) => {
+		resolve = y;
+		reject = n;
+	});
+	return {
+		promise: promise,
+		resolveIt: resolve,
+		rejectIt: reject
+	};
+}
 
 function RunWhenDomReady(e) {
 	if (document.readyState === "loading") {
@@ -105,10 +118,27 @@ function RunWhenDomReady(e) {
 	}
 }
 
-function LinkStylesheet(fileName) {
-  var link = document.createElement("link");
-  link.type = "text/css";
-  link.rel = "stylesheet";
-  link.href = fileName;
-  return document.head.appendChild(link);
-}
+RunWhenDomReady(()=>{
+	CompleteComposeScript.then(()=>{
+		let e = document.createElement('a');
+		e.className = 'helplink';
+		e.setAttribute("href", "?reload");
+		e.innerText = 'Reload scripts and components';
+		e.style['float'] = 'right';
+		document.body.insertBefore(e, document.body.firstElementChild);
+	});
+});
+
+((() => {
+	{let params = new URLSearchParams(location.search);
+	if (!params.has('reload')) return;}
+	
+	{
+		const nativeFetch = fetch;
+		fetch = function(r, o) {
+			if (!o) o = { cache: reload };
+			else if (!o.cache) o.cache = 'reload';
+			return nativeFetch(r, o);
+		}
+	}	
+})());
