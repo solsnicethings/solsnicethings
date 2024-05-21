@@ -7,7 +7,7 @@
 	dom.style.whiteSpace = 'pre';
 
 	let tips = [
-		"Math.floor(new Date().getTime()/8.64e7) % tips.length"
+		"tipByDay[Math.floor(new Date().getTime()/8.64e7) % tips.length]"
 	];
 
 	let tip = Math.floor(new Date().getTime()/8.64e7) % tips.length;
