@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Hjelphjelp (CONFIG)</title>
+
+<link href="css/standard-style.css" rel="stylesheet" type="text/css" />
+<link href="css/standard-tech.css" rel="stylesheet" type="text/css" />
+
+<link href="css/standard-shades.css" rel="stylesheet" type="text/css" />
+
+
+</head>
+<body class=embedded>
+
+<header><h1>HIDDEN</h1></header>
+
+	<table class=workspace><tr>
+	<td class=active id=main>
+	<item activator=test>
+	<btn>
+	<script>const urlSearchParams = new URLSearchParams(location.search);
+		let scope = urlSearchParams.get('scope');
+		if (scope) { document.write(scope);
+			//document.documentElement.style.overflowY = 'visible';
+			//document.body.style.overflowY = 'visible';
+			
+		}
+		if (urlSearchParams.has('embedded') && parent /* && parent.component_registry*/) {
+			//e = parent.component_registry[window];
+			//if (e) {
+				//e(getComputedStyle(document.documentElement).height);
+				parent.postMessage(getComputedStyle(document.documentElement).height, '*');
+				let o = new ResizeObserver(entries => {
+					//e(getComputedStyle(document.documentElement).height);
+					parent.postMessage(getComputedStyle(document.documentElement).height, '*');
+				});
+				o.observe(document.documentElement, { box: "border-box" });
+			//}
+		}
+		
+		document.addEventListener('change', e => {
+			//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
+			//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
+			e = e.target;
+			if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
+				!e.parentNode.hasAttribute('for') &&
+				e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
+				switch (e.getAttribute('type'))
+				{
+					case 'radio': case 'checkbox':
+						if (e.checked) e.parentNode.setAttribute('input-checked', '');
+						else e.parentNode.removeAttribute('input-checked');
+				}
+			
+		});
+		</script>
+	</btn>
+	<div>
+<label class=concealer><input type=checkbox>Allow storage of settings in your browser</label>
+<div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div><div>Toggles</div>
+<div>Toggles</div>
+</div>
+<div>Always on</div>
+<div>Always on</div>
+
+	</item></td>
+	<td class=menu>
+	<btn activator=test>test</btn>
+	<btn class=used>test</btn>
+	<btn class=disabled>test</btn>
+	<item>
+	<btn activator=test>test</btn>
+	<btn class=used>test</btn>
+	<btn class=disabled>test</btn>
+	</item>
+	<item>
+	<btn>test</btn>
+	<div> fine </div>
+	</item>
+	<item>
+	<div> fine </div>
+	<btn>test</btn>
+	<div> fine </div>
+	</item>	
+	</td>
+	</tr><table>
+	
+
+<footer><h1>HIDDEN</h1></footer>
+</body>
+</html>

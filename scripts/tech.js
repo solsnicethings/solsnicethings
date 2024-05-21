@@ -124,59 +124,106 @@ function PromiseAnything() {
 		reject = n;
 	});
 	return {
-		promise: promise,
 		resolveIt: resolve,
-		rejectIt: reject
+		rejectIt: reject,
+		
+		chainThen: (f,r) => { return promise = promise.then(f,r); },
+		chainCatch: f => { return promise = promise.catch(f); }		
 	};
 }
 
-function RunWhenDomReady(e) {
-	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", e);
-	} else {
-		e();
+function RunWhenDomReady(e, d = document) {
+	if (d instanceof HTMLDocument && d.readyState == "loading") {
+		d.addEventListener("DOMContentLoaded", e);
+	} else if (d instanceof HTMLIFrameElement) {
+		if (d.contentDocument) RunWhenDomReady(e, d.contentDocument);
+		else d.contentWindow.addEventListener("load", e);
+	} else { e(); }
+}
+function RunWhenLoaded(e, n = document) {
+	if (n instanceof HTMLDocument) {
+		if (n.readyState === "complete") { e(); return; }
+		n = n.defaultViewport;
+	} else if (n instanceof HTMLIFrameElement) {
+		if (n.contentDocument) RunWhenLoaded(e, n.contentDocument);
+		else n.contentWindow.addEventListener("load", e);
+		return;
 	}
+	n.addEventListener("load", e);
 }
 
 RunWhenDomReady(()=>{
-	let purgenotifs = document.createElement('action');
-	purgenotifs.innerText = 'purge diagnostic messages';
-	purgenotifs.addEventListener('click', x => {
-		x = component_registry['diagnostic:observer'];
-		if (x) x.disconnect();
-		for (;;) {
-			x = document.querySelector('.diagnostic');
-			if (!x) return;
-			x.parentNode.removeChild(x);
-		}
-	});
-	document.body.appendChild(purgenotifs);
-	CompleteComposeScript.promise.then(()=>{
+	{
+		let purgenotifs = document.createElement('action');
+		purgenotifs.innerText = 'purge diagnostic messages';
+		purgenotifs.addEventListener('click', x => {
+			x = component_registry['diagnostic:observer'];
+			if (x) x.disconnect();
+			for (;;) {
+				x = document.querySelector('.diagnostic');
+				if (!x) return;
+				x.parentNode.removeChild(x);
+			}
+		});
+		document.body.appendChild(purgenotifs);
+	}
+	{
+		document.addEventListener('change', e => {
+			//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
+			//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
+			e = e.target;
+			if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
+				!e.parentNode.hasAttribute('for') &&
+				e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
+				switch (e.getAttribute('type'))
+				{
+					case 'radio': case 'checkbox':
+						if (e.checked) e.parentNode.setAttribute('input-checked', '');
+						else e.parentNode.removeAttribute('input-checked');
+				}
+			
+		});
+		
+	
+	}
+	CompleteComposeScript.chainThen(()=>{
 		let e = document.createElement('a');
-		e.className = 'helplink';
+		e.className = 'helplink unbed';
 		e.setAttribute("href", "?reload");
 		e.innerText = 'Reload page components';
 		e.style['float'] = 'right';
 		document.body.insertBefore(e, document.body.firstElementChild);
 		e = document.querySelector('body > footer:last-of-type');
 		if (e) e.insertBefore(purgenotifs, e.firstElementChild);
+		
+		if (urlSearchParams.has('embedded')) {
+			document.body.classList.add('embedded');
+			if ( parent && parent.component_registry) {
+				e = parent.component_registry[window];
+				if (e) {
+					e(getComputedStyle(document.documentElement).height);
+					let o = new ResizeObserver(entries => {
+						e(getComputedStyle(document.documentElement).height);
+					});
+					o.observe(document.documentElement, { box: "border-box" });
+				}
+			}
+		}
 	});
 });
 
 ((() => {
-	{let params = new URLSearchParams(location.search);
-	if (!params.has('reload')) return;}
+	if (!urlSearchParams.has('reload')) return;
 	
-	{
-		const nativeFetch = fetch;
-		fetch = function(r, o) {
-			if (!o) o = { cache: reload };
-			else if (!o.cache) o.cache = 'reload';
-			if (!component_registry["force:reload"]) { 
-				component_registry["force:reload"]=ShowDiagnostic("Defaulting to reload from server when fetching page parts.\nYou may need to force reload the page itself too. CTRL+F5 may do it.");
-			}
-			ShowDiagnostic("with " + o.cache + ", fetch: " + r);
-			return nativeFetch(r, o);
+	const nativeFetch = fetch;
+	fetch = function(r, o) {
+		if (!o) o = { cache: reload };
+		else if (!o.cache) o.cache = 'reload';
+		if (!component_registry["force:reload"]) { 
+			component_registry["force:reload"]=ShowDiagnostic("Defaulting to reload from server when fetching page parts.\nYou may need to force reload the page itself too. CTRL+F5 may do it.");
 		}
-	}	
+		ShowDiagnostic("with " + o.cache + ", fetch: " + r);
+		return nativeFetch(r, o);
+	}
+	
 })());

@@ -1,4 +1,13 @@
+.fixwidth { container: inline-size; }
+.fixwidth > :first-child { position: absolute; width: 90cqw; height: fit-content; margin: 0; overflow-x: hidden; z-index: 2; }
+
+body > label { display: block; }
+
+.embedded .unbed, .embedded > header, .embedded > footer { display: none; }
+
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
+
+.concealer:not(:checked):not([input-checked]) ~ * { display: none; visibility: hidden; }
 
 .righthalflabel { position: absolute; right: 50vw; text-align: right; }
 .righthalflabel + * { padding-left: 51vw; }
@@ -19,8 +28,8 @@ footer > buttons { flex-direction: row-reverse; }
 buttons { display: flex; flex-wrap: wrap; }
 .menu > *, buttons > * { display: block; margin-bottom: 0.2em; margin-left: 3em; margin-top: 0.2em; margin-right: 3em; text-decoration: none; border-radius: 22%; }
 .menu > a, buttons > a { border: 0.1em dashed; padding: 0.2em; }
-.menu > :not(a), buttons > :not(a) { border: 0.2em outset; padding-left: 0.7em; padding-right: 0.7em; padding-top: 0.1em; padding-bottom: 0.1em; cursor: pointer; user-select: none; }
-btn { cursor: pointer; user-select: none; }
+.menu > :not(a), buttons > :not(a) { border: 0.2em outset; padding-left: 0.7em; padding-right: 0.7em; padding-top: 0.1em; padding-bottom: 0.1em; cursor: pointer; -webkit-user-select: none; user-select: none; }
+btn { cursor: pointer; -webkit-user-select: none; user-select: none; }
 
 .active btn[activator],
 .active > [activator]:not(btn) > btn:first-of-type {
@@ -42,7 +51,7 @@ iframe { width: 25vw; height: 20vh; }
 @media (hover: hover) {
 	.diagnostic:not(:hover) { opacity: 0.5; }
 }
-action { cursor: pointer; white-space: pre-wrap; user-select: none; min-width: 1.5em; text-align: center;
+action { cursor: pointer; white-space: pre-wrap; -webkit-user-select: none; user-select: none; min-width: 1.5em; text-align: center;
 /*display: inline-block;
 position: relative;
 left: 100%;

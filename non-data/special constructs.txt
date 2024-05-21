@@ -1,0 +1,9 @@
+label with check state attribute
+	example: <label><input type=checkbox|radio />{anything}</label>
+	specification by selector:
+		label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
+		label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type
+	
+	functionality:
+		when an appropriate element (already) in the document has a change event,
+		the containing label is updated to have an [input-checked] attribute if and only if the input is :checked

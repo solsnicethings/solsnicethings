@@ -1,0 +1,6 @@
+{
+	"scope": "header",
+	"containerElement": "label",
+	"titleElement": null,
+	"placement": "after"
+}

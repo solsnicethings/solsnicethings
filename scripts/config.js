@@ -4,3 +4,4 @@ const github_user = 'solsnicethings';
 const github_repo = github_user + '.github.io';
 
 const component_registry = {};
+const urlSearchParams = new URLSearchParams(location.search);
