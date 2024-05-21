@@ -8,6 +8,6 @@
 	dom.appendChild(document.createElement('input')).setAttribute('type','checkbox');
 	
 	dom.appendChild(document.createElement('div')).innerHTML =
-	'<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target"_blank">See the Storage APIs on the Mozilla developer site for more details!</a> (opens in new tab/window)';
+	'<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank">See the Storage APIs on the Mozilla developer site for more details!</a> (opens in new tab/window)';
 		
 })());

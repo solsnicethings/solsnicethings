@@ -10,7 +10,7 @@
 		config.parentNode.style.height = height;
 	};
 	
-	config.setAttribute('sandbox', 'allow-popups-to-escape-sandbox allow-popups allow-same-origin allow-scripts');
+	//config.setAttribute('sandbox', 'allow-popups-to-escape-sandbox allow-popups allow-same-origin allow-scripts');
 	config.setAttribute('title', 'Configuration');
 	config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
 	
