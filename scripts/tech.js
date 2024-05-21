@@ -153,39 +153,34 @@ function RunWhenLoaded(e, n = document) {
 }
 
 RunWhenDomReady(()=>{
-	{
-		let purgenotifs = document.createElement('action');
-		purgenotifs.innerText = 'purge diagnostic messages';
-		purgenotifs.addEventListener('click', x => {
-			x = component_registry['diagnostic:observer'];
-			if (x) x.disconnect();
-			for (;;) {
-				x = document.querySelector('.diagnostic');
-				if (!x) return;
-				x.parentNode.removeChild(x);
+	let purgenotifs = document.createElement('action');
+	purgenotifs.innerText = 'purge diagnostic messages';
+	purgenotifs.addEventListener('click', x => {
+		x = component_registry['diagnostic:observer'];
+		if (x) x.disconnect();
+		for (;;) {
+			x = document.querySelector('.diagnostic');
+			if (!x) return;
+			x.parentNode.removeChild(x);
+		}
+	});
+	document.body.appendChild(purgenotifs);
+	document.addEventListener('change', e => {
+		//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
+		//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
+		e = e.target;
+		if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
+			!e.parentNode.hasAttribute('for') &&
+			e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
+			switch (e.getAttribute('type'))
+			{
+				case 'radio': case 'checkbox':
+					if (e.checked) e.parentNode.setAttribute('input-checked', '');
+					else e.parentNode.removeAttribute('input-checked');
 			}
-		});
-		document.body.appendChild(purgenotifs);
-	}
-	{
-		document.addEventListener('change', e => {
-			//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
-			//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
-			e = e.target;
-			if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
-				!e.parentNode.hasAttribute('for') &&
-				e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
-				switch (e.getAttribute('type'))
-				{
-					case 'radio': case 'checkbox':
-						if (e.checked) e.parentNode.setAttribute('input-checked', '');
-						else e.parentNode.removeAttribute('input-checked');
-				}
-			
-		});
 		
-	
-	}
+	});
+		
 	CompleteComposeScript.chainThen(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink unbed';
