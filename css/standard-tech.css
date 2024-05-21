@@ -17,6 +17,7 @@ cap {  font-variant: small-caps; }
 .helplink { float: right; margin-left: 2em; padding-right: 1.5em; }
 .home .gohome { visibility: hidden; }
 
+.clickentrylist > *  { pointer-events: auto; }
 .clickentrylist, .clickentrylist * *  { pointer-events: none; }
 .clickentrylist, .clickentrylist * {  -webkit-user-select: none; user-select: none; }
 
