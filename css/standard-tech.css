@@ -17,6 +17,9 @@ cap {  font-variant: small-caps; }
 .helplink { float: right; margin-left: 2em; padding-right: 1.5em; }
 .home .gohome { visibility: hidden; }
 
+.clickentrylist, .clickentrylist * *  { pointer-events: none; }
+.clickentrylist, .clickentrylist * {  -webkit-user-select: none; user-select: none; }
+
 .menu { padding-left: 0.6em; padding-right: 0.6em; }
 .workspace { width: 98vw; }
 .workspace td:first-child { width: 99%; }
