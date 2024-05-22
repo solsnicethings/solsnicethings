@@ -321,7 +321,7 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 			}, remember);
 			
 			const cleanup = (result) => {
-				if (remember === undefined)
+				if (result === undefined)
 				{
 					if (sourcemem)
 						if (helper.count == 1) delete conversation_helper[q];
@@ -341,7 +341,6 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 					conversation_helper[q] = helper;
 				}
 				if (doPost) doPost(); else doPost = true;
-				
 			};
 			
 			if (remember instanceof Promise) remember.then(cleanup); else cleanup(remember);
