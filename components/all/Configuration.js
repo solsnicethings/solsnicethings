@@ -5,7 +5,7 @@
 	
 	let config = document.createElement('iframe');
 	
-	ListenForPostMessage(config, AsAnsweringMachine(async function (data, connection) => {
+	ListenForPostMessage(config, AsAnsweringMachine(async function (data, connection) {
 		if (data.height) {
 			config.style.height = data.height;
 			config.parentNode.style.height = data.height;
