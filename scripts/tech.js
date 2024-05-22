@@ -286,14 +286,14 @@ async function AskParent(query, conversationId, deleteOnAnswer, parentWindow = p
 	const getReply = function(event) {
 		if (!(event.source == parentWindow && event.origin == origin)) return;
 		event = event.data;
-		if (!(event.isAnswer && event.id == qid)) return;
+		if (!(event.isAnswer && event.id == conversationId)) return;
 		window.removeEventListener('message', getReply);
 		if (deleteOnAnswer) EndConversation();
 		resolve.resolveIt(event.answerIs);
 	};
 	
 	window.addEventListener('message', getReply);
-	parentWindow.postMessage({ q: query, id: qid}, origin);
+	parentWindow.postMessage({ q: query, id: conversationId}, origin);
 	await resolve.chainThen();
 	return resolve.result;
 }
