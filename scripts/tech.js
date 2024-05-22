@@ -235,7 +235,7 @@ function ListenForPostMessage(source, callback, origin) {
 			if (!call) return;
 			let calls = call[event.origin];
 			if (calls) for (const c of calls) c(event);
-			let calls = call['*'];
+			calls = call['*'];
 			if (calls) for (const c of calls) c(event);
 		});
 	}
