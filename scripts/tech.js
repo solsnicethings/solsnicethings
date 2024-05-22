@@ -246,7 +246,7 @@ const parentQueries = {};
 async function AskParent(query, parentWindow = parent, origin = location.origin) {
 	
 	let qid;
-	do qid	= new Date().now.getTime(); while (parentQueries[qid] || qid == 0);
+	do qid	= new Date.now(); while (parentQueries[qid] || qid == 0);
 	parentQueries[qid] = true;
 	
 	let resolve = PromiseAnything();
