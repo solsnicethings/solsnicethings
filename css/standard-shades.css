@@ -34,6 +34,7 @@ body {
 
 action { background-color: var(--actionemphasisbc); }
 a {
+	border: solid 0.1em var(--linkemphasisbc);
 	color: var(--enabledfc);
 	background-color: var(--linkemphasisbc);
 }
