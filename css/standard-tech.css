@@ -2,7 +2,7 @@
 .fixwidth > :first-child { position: absolute; width: 90cqw; height: fit-content; margin: 0; overflow-x: hidden; z-index: 2; }
 
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
-p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; }
+p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; padding-left: 2em; padding-top: 0.1em; padding-bottom: 0.1em; }
 
 body > label { display: block; }
 
@@ -40,11 +40,11 @@ btn { cursor: pointer; -webkit-user-select: none; user-select: none; }
 
 .active btn[activator],
 .active > [activator]:not(btn) > btn:first-of-type {
-	display: block; font-size: 1.05em; padding-bottom: 0.2em; padding-left: 1em; padding-right: 5em; border: solid 0.2em rgba(0,0,0,0); border-radius: 0.8em; margin-bottom: 1em;
+	display: block; font-size: 1.5em; padding-bottom: 0.2em; padding-left: 1em; padding-right: 5em; border: solid 0.2em rgba(0,0,0,0); border-radius: 0.8em; margin-bottom: 1em;
 	
 	color: var(--mutedfc);
 	background-color: none;
-	background: linear-gradient(var(--mutedbc), 90%, rgba(0,0,0,0));
+	background: linear-gradient(var(--mutedbc), 90%, --enabledfc);
 	 font-variant: small-caps;
 }
 
