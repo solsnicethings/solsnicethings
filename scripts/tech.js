@@ -233,7 +233,7 @@ function ListenForPostMessage(source, callback, origin) {
 		window.addEventListener(   "message",   (event) => {
 			let call = component_registry[event.source];
 			if (!call) return;
-			calls = call[event.origin];
+			let calls = call[event.origin];
 			if (calls) for (const c of calls) c(event);
 			let calls = call['*'];
 			if (calls) for (const c of calls) c(event);
