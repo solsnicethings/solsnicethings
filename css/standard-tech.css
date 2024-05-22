@@ -10,7 +10,7 @@ background-color: var(--textbc, var(--bc));  color: var(--textfc, var(--fc)) }
 .loadmsg:empty::before, .loadmsg:empty::after { display: block; white-space: pre-wrap;
 }
 .loadmsg:empty::before { content: "Welcome to Waiting for Something to Load!";  border-bottom: groove 0.2em rgba(255,255,255,0.5); border-radius: 20%; font-weight: bold; }
-.loadmsg:empty::after { font-size: 0.6em; padding-left: 1em; font-family: verdana;
+.loadmsg:empty::after { font-size: 0.65em; padding-left: 1em; font-family: verdana;
 content: "Maybe something went wrong!            What could it be?                Broken CSS? No. The javascript..?\a\a\
 YES! It is fantastically bippety boppy and could certainly fail.\a\
 Good thing too: all the actual contents are fetched by javascript calls. I... have a system!\a\a\

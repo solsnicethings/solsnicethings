@@ -22,7 +22,7 @@ html {
   --failfc: #300;
   --failbc: #fcc;
   
-  --linkemphasisbc: rgba(0,0,0,0.5);
+  --linkemphasisbc: rgba(0,0,0,0.37);
   --actionemphasisbc: rgba(255,255,255,0.5);
 }
 
