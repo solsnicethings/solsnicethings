@@ -269,11 +269,17 @@ function ListenForPostMessage(source, callback, origin) {
 
 const parentQueries = {};
 
-async function AskParent(query, parentWindow = parent, origin = location.origin) {
-	
+function StartConversation() {
 	let qid;
 	do qid= Date.now(); while (parentQueries[qid] || qid == 0);
 	parentQueries[qid] = true;
+	return qid;
+}
+function EndConversation(conversationid) { delete parentQueries[conversationId]; }
+
+async function AskParent(query, conversationId, deleteOnAnswer, parentWindow = parent, origin = location.origin) {
+	
+	if (!conversationId) { deleteOnAnswer = true; conversationId = startConversation(); }
 	
 	let resolve = PromiseAnything();
 	
@@ -282,6 +288,7 @@ async function AskParent(query, parentWindow = parent, origin = location.origin)
 		event = event.data;
 		if (!(event.isAnswer && event.id == qid)) return;
 		window.removeEventListener('message', getReply);
+		if (deleteOnAnswer) EndConversation();
 		resolve.resolveIt(event.answerIs);
 	};
 	
@@ -294,29 +301,84 @@ async function AskParent(query, parentWindow = parent, origin = location.origin)
 	 	parentWindow.postMessage({ q: query, id: 0 }, origin);
  }
 
-function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter) {
+ const conversation_helper = {};
+ 
+function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameterAndReturnsAnythingToRememberWhichIsThenTheThirdParameter) {
 	return (event) => {
 		const q = event.data.q;
 		if (!q) return;
 		const id = event.data.id;
-		if (id)
-		functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter(event.data.q, a => {
-			event.source.postMessage({ id: id, isAnswer: true, answerIs: a }, event.origin);
-		});
-		else functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter(event.data.q);
+		if (id) {
+			let helper = conversation_helper[q];
+			let sourcemem, remember;
+			if (helper) sourcemem = helper[event.source]; else sourcemem = undefined;
+			if (sourcemem) remember = sourcemem.remember; else remember = undefined;
+			
+			let doPost = null;
+			remember = functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameterAndReturnsAnythingToRememberWhichIsThenTheThirdParameter(event.data.q, a => {
+				if (doPost) event.source.postMessage({ id: id, isAnswer: true, answerIs: a }, event.origin);
+				else doPost = () => event.source.postMessage({ id: id, isAnswer: true, answerIs: a }, event.origin);
+			}, remember);
+			
+			const cleanup = (result) => {
+				if (remember === undefined)
+				{
+					if (sourcemem)
+						if (helper.count == 1) delete conversation_helper[q];
+						else {
+							delete helper.sources[event.source];
+							helper.count--;
+						}
+				}
+				else if (sourcemem) sourcemem.remember = result;
+				else if (helper) {
+					helper.count++;
+					helper.sources[event.source] = { remember: result };
+				}
+				else conversation_helper[q] = { event.source: { remember: result }, count: 1 };
+				if (doPost) doPost(); else doPost = true;
+				
+			};
+			
+			if (remember instanceof Promise) remember.then(cleanup); else cleanup(remember);
+		}
+		else functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameterAndReturnsAnythingToRememberWhichIsThenTheThirdParameter(event.data.q);
 	};
 }
 
+async function PerformAsFetchProxyAnsweringMachine(data, connection, recollection) {
+	switch (data.please) {
+		case 'fetch':
+			recollection = await fetch(data.path, data.options);
+			connection({
+				headers: recollection.headers,
+				ok: recollection.ok,
+				redirected: recollection.redirected,
+				status: recollection.status,
+				statusText: recollection.statusText,
+				type: recollection.type,
+				url: recollection.url
+			});
+			return recollection;
+		case 'fetch.text':
+			connection(await recollection.text());
+			return;
+		case 'fetch.json':
+			connection(await recollection.json());
+			return;
+	}
+}
 
 ((() => {
 	if (urlSearchParams.has('embedded')) {
 		fetch = /* (askfor, askoptn) => {
 			return AskParent({ please: 'fetch', path: askfor, options: askoptn });
 		};*/ async function (askfor, askoptn) {
-			return {
-				json: () => { return AskParent({ please: 'fetch json', path: askfor, options: askoptn }); },
-				text: () => { return AskParent({ please: 'fetch text', path: askfor, options: askoptn }); }
-			};
+			let qid = StartConversation();
+			let result = await AskParent({ please: 'fetch', path: askfor, options: askoptn }, qid);
+			result.json = () => { return AskParent({ please: 'fetch.json' }, qid, true); };
+			result.text  = () => { return AskParent({ please: 'fetch.text' }, qid, true); };
+			return result;
 		};
 	}
 	

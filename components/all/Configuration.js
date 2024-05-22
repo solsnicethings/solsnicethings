@@ -5,17 +5,12 @@
 	
 	let config = document.createElement('iframe');
 	
-	ListenForPostMessage(config, AsAnsweringMachine(async function (data, connection) {
+	let fetches = {};
+	
+	ListenForPostMessage(config, AsAnsweringMachine(function (data, connection, recollection) {
 		if (data.height) {
 			config.style.height = data.height;
-		} else switch (data.please) {
-			case 'fetch json':
-				connection( await (await fetch(data.path, data.options)).json() );
-				return;
-			case 'fetch text':
-				connection( await (await fetch(data.path, data.options)).text() );
-				return;
-		}
+		} else return PerformAsFetchProxyAnsweringMachine(data, connection, recollection);
 	}));
 	
 	//config.setAttribute('sandbox', 'allow-popups-to-escape-sandbox allow-popups allow-same-origin allow-scripts');
