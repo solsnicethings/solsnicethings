@@ -275,7 +275,7 @@ function StartConversation() {
 	parentQueries[qid] = true;
 	return qid;
 }
-function EndConversation(conversationid) { delete parentQueries[conversationId]; }
+function EndConversation(conversationId) { delete parentQueries[conversationId]; }
 
 async function AskParent(query, conversationId, deleteOnAnswer, parentWindow = parent, origin = location.origin) {
 	
@@ -378,7 +378,7 @@ async function PerformAsFetchProxyAnsweringMachine(data, connection, recollectio
 		fetch = /* (askfor, askoptn) => {
 			return AskParent({ please: 'fetch', path: askfor, options: askoptn });
 		};*/ async function (askfor, askoptn) {
-			let qid = StartConversation();
+			const qid = StartConversation();
 			let result = await AskParent({ please: 'fetch', path: askfor, options: askoptn }, qid);
 			result.json = () => { return AskParent({ please: 'fetch.json' }, qid, true); };
 			result.text  = () => { return AskParent({ please: 'fetch.text' }, qid, true); };
