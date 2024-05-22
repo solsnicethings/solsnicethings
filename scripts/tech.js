@@ -310,8 +310,13 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 
 ((() => {
 	if (urlSearchParams.has('embedded')) {
-		fetch = (askfor, askoptn) => {
+		fetch = /* (askfor, askoptn) => {
 			return AskParent({ please: 'fetch', path: askfor, options: askoptn });
+		};*/ async function (askfor, askoptn) {
+			return {
+				json: () => { return AskParent({ please: 'fetch json', path: askfor, options: askoptn }); }
+				text: () => { return AskParent({ please: 'fetch text', path: askfor, options: askoptn }); }
+			};
 		};
 	}
 	

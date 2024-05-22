@@ -9,8 +9,11 @@
 		if (data.height) {
 			config.style.height = data.height;
 		} else switch (data.please) {
-			case 'fetch':
-				connection(await fetch(data.path, data.options));
+			case 'fetch json':
+				connection( await (await fetch(data.path, data.options)).json() );
+				return;
+			case 'fetch text':
+				connection( await (await fetch(data.path, data.options)).text() );
 				return;
 		}
 	}));
