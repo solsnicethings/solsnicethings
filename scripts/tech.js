@@ -218,7 +218,13 @@ function ListenForPostMessage(source, callback, origin) {
 				origin = origin.origin;
 			}
 		}
-		source = source.sourceWindow;	
+		if (source.contentWindow) source = source.contentWindow;
+		else 
+		{
+			let late_bind = post_listeners[''];
+			if (!late_bind) { late_bind = []; post_listeners['']=late_bind; }
+			late_bind.push(source);
+		}
 	}
 	if (!origin) origin = location.origin;
 	
@@ -226,22 +232,38 @@ function ListenForPostMessage(source, callback, origin) {
 	if (!post_listeners) {
 		post_listeners = {};
 		window.addEventListener(   "message",   (event) => {
-			let call = post_listeners[event.source];
+			
+			let call = post_listeners[''];
+			if (call) {
+				post_listeners[''] = null;
+				for (const latesource of call) {
+					const w = latesource.contentWindow;
+					if (!w){ if (!post_listeners['']) post_listeners[''] = []; post_listeners[''].push(latesource); continue; }
+					
+					const b = post_listeners[latesource];
+					for (const lateorigin in b)
+						for (const latecallback of b[lateorigin])
+							ListenForPostMessage(w, latecallback, lateorigin);
+				}
+			}
+			
+			call = post_listeners[event.source];
 			if (!call) return;
 			let calls = call[event.origin];
 			if (calls) for (const c of calls) c(event);
 			calls = call['*'];
 			if (calls) for (const c of calls) c(event);
 		});
-	}	
-	
-	let bundle = post_listeners[source];
-	if (!bundle) { bundle = {}; post_listeners[source] = bundle; }
-	
-	let list = bundle[origin];
-	if (!list) { list = []; bundle[origin] = list; }
-	
-	list.push(callback);
+	}
+	{
+		let bundle = post_listeners[source];
+		if (!bundle) { bundle = {}; post_listeners[source] = bundle; }
+		
+		let list = bundle[origin];
+		if (!list) { list = []; bundle[origin] = list; }
+		
+		list.push(callback);
+	}
 }
 
 const parentQueries = {};
