@@ -206,6 +206,8 @@ RunWhenDomReady(()=>{
 	});
 });
 
+let post_listeners;
+
 function ListenForPostMessage(source, callback, origin) {
 		
 	if (source instanceof HTMLIFrameElement) {
@@ -220,25 +222,26 @@ function ListenForPostMessage(source, callback, origin) {
 	}
 	if (!origin) origin = location.origin;
 	
-	let bundle = component_registry[source];
-	if (!bundle) { bundle = {}; component_registry[source] = bundle; }
 	
-	let list = bundle[origin];
-	if (!list) { list = []; bundle[origin] = list; }
-	
-	list.push(callback);
-	
-	if (!component_registry[window]) {
-		component_registry[window] = window;
+	if (!post_listeners) {
+		post_listeners = {};
 		window.addEventListener(   "message",   (event) => {
-			let call = component_registry[event.source];
+			let call = post_listeners[event.source];
 			if (!call) return;
 			let calls = call[event.origin];
 			if (calls) for (const c of calls) c(event);
 			calls = call['*'];
 			if (calls) for (const c of calls) c(event);
 		});
-	}
+	}	
+	
+	let bundle = post_listeners[source];
+	if (!bundle) { bundle = {}; post_listeners[source] = bundle; }
+	
+	let list = bundle[origin];
+	if (!list) { list = []; bundle[origin] = list; }
+	
+	list.push(callback);
 }
 
 const parentQueries = {};
