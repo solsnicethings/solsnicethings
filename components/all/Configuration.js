@@ -16,8 +16,8 @@
 	
 	{
 		let fallback = config.appendChild(document.createElement('a'));
-		a.setAttribute('href', '/config.html?scope=' + encodeURIComponent(location.pathname));
-		a.innerText = 'Go to configuration page (IFRAME not supported)';
+		fallback.setAttribute('href', '/config.html?scope=' + encodeURIComponent(location.pathname));
+		fallback.innerText = 'Go to configuration page (IFRAME not supported)';
 	}
 	{
 		let box = document.createElement('div');

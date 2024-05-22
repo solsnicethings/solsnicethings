@@ -28,9 +28,8 @@
 			e.setAttribute('href', k);
 			e.setAttribute('target', '_blank');
 			e.style.display = 'block';
-			e.style.textAlign = 'right';
-			e.position = 'absolute';
-			dom.lastChild.appendChild(e);
+			e.style.position = 'absolute';
+			dom.lastChild.insertBefore(e, dom.lastChild.firstChild);
 		}
 	}
 		
