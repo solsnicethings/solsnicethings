@@ -44,7 +44,7 @@ btn { cursor: pointer; -webkit-user-select: none; user-select: none; }
 	
 	color: var(--mutedfc);
 	background-color: none;
-	background: linear-gradient(var(--mutedbc), 90%, --enabledfc);
+	background: linear-gradient(var(--mutedbc), 90%, var(--enabledfc));
 	 font-variant: small-caps;
 }
 
