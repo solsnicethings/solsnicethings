@@ -14,9 +14,15 @@
 	config.setAttribute('title', 'Configuration');
 	config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
 	
-	let box = document.createElement('div');
-	box.className = 'fixwidth';
-	box.appendChild(config);
-	dom.appendChild(box);
-		
+	{
+		let fallback = config.appendChild(document.createElement('a'));
+		a.setAttribute('href', '/config.html?scope=' + encodeURIComponent(location.pathname));
+		a.innerText = 'Go to configuration page (IFRAME not supported)';
+	}
+	{
+		let box = document.createElement('div');
+		box.className = 'fixwidth';
+		box.appendChild(config);
+		dom.appendChild(box);
+	}	
 })());

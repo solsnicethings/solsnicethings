@@ -3,8 +3,6 @@
 	let dom = component_registry[document.currentScript];
 	dom = component_registry[dom].dom;
 	
-	dom = dom.appendChild(document.createElement('b'));
-
 	let tip = [
 		{"tipByDay[Math.floor(new Date().getTime()/8.64e7) % tips.length]":
 			'https://stackoverflow.com/questions/12739171/javascript-epoch-time-in-days'
@@ -18,7 +16,7 @@
 
 	for (const k in tip) {
 		let e = dom.appendChild( document.createElement('p') );
-		e.style.whiteSpace = 'pre';
+		e.style.whiteSpace = 'pre-wrap';
 		e.innerText = k;
 		dom.appendChild('cite').innerText = tip[k];
 	}
