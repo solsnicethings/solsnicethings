@@ -5,10 +5,16 @@
 	
 	let config = document.createElement('iframe');
 	
-	component_registry[config.contentWindow] = height => {
-		config.style.height = height;
-		config.parentNode.style.height = height;
-	};
+	ListenForPostMessage(config, AsAnsweringMachine(async function (data, connection) => {
+		if (data.height) {
+			config.style.height = data.height;
+			config.parentNode.style.height = data.height;
+		} else switch (data.please) {
+			case 'fetch':
+				connection(await fetch(data.path, data.options));
+				return;
+		}
+	}));
 	
 	//config.setAttribute('sandbox', 'allow-popups-to-escape-sandbox allow-popups allow-same-origin allow-scripts');
 	config.setAttribute('title', 'Configuration');

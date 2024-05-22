@@ -123,13 +123,15 @@ function PromiseAnything() {
 		resolve = y;
 		reject = n;
 	});
-	return {
+	let p = {
 		resolveIt: resolve,
 		rejectIt: reject,
 		
 		chainThen: (f,r) => { return promise = promise.then(f,r); },
 		chainCatch: f => { return promise = promise.catch(f); }		
 	};
+	p.chainThen( r => { p.result = r; });
+	return p;
 }
 
 function RunWhenDomReady(e, d = document) {
@@ -193,12 +195,10 @@ RunWhenDomReady(()=>{
 		
 		if (urlSearchParams.has('embedded')) {
 			document.body.classList.add('embedded');
-			if ( parent && parent.component_registry) {
-				e = parent.component_registry[window];
-				if (e) {
-					e(getComputedStyle(document.documentElement).height);
+			if ( parent ) {
+				InformParent( { height: getComputedStyle(document.documentElement).height });
 					let o = new ResizeObserver(entries => {
-						e(getComputedStyle(document.documentElement).height);
+						InformParent( { height: getComputedStyle(document.documentElement).height });
 					});
 					o.observe(document.documentElement, { box: "border-box" });
 				}
@@ -207,7 +207,89 @@ RunWhenDomReady(()=>{
 	});
 });
 
+function ListenForPostMessage(source, callback, origin) {
+		
+	if (source instanceof HTMLIFrameElement) {
+		if (!origin) {
+			origin = source.getAttribute('src');
+			if (origin) {
+				origin = new URL(origin, location.origin);
+				origin = origin.origin;
+			}
+		}
+		source = source.sourceWindow;	
+	}
+	if (!origin) origin = location.origin;
+	
+	let bundle = component_registry[source];
+	if (!bundle) { bundle = {}; component_registry[source] = bundle; }
+	
+	let list = bundle[origin];
+	if (!list) { list = []; bundle[origin] = list; }
+	
+	list.push(callback);
+	
+	if (!component_registry[window]) {
+		component_registry[window] = window;
+		window.addEventListener(   "message",   (event) => {
+			let call = component_registry[event.source];
+			if (!call) return;
+			calls = call[event.origin];
+			if (calls) for (const c of calls) c(event);
+			let calls = call['*'];
+			if (calls) for (const c of calls) c(event);
+		});
+	}
+}
+
+const parentQueries = {};
+
+async function AskParent(query, parentWindow = parent, origin = location.origin) {
+	
+	let qid;
+	do qid	= new Date().now.getTime(); while (parentQueries[qid] || qid == 0);
+	parentQueries[qid] = true;
+	
+	let resolve = PromiseAnything();
+	
+	const getReply = function(event) {
+		if (!(event.source == parentWindow && event.origin == origin)) return;
+		event = event.data;
+		if (!(event.isAnswer && event.id == qid)) return;
+		window.removeEventListener('message', getReply);
+		resolve.resolveIt(event.answerIs);
+	};
+	
+	window.addEventListener('message', getReply);
+	parentWindow.postMessage({ q: query, id: qid}, origin);
+	await resolve.chainThen();
+	return resolve.result;
+}
+ function InformParent(query, parentWindow = parent, origin = location.origin) {
+	 	parentWindow.postMessage({ q: query, id: 0 }, origin);
+ }
+
+function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter) {
+	return (event) => {
+		const q = event.data.q;
+		if (!q) return;
+		const id = event.data.id;
+		if (id)
+		functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter(event.data.q, a => {
+			event.source.postMessage({ id: id, isAnswer: true, answerIs: a }, event.origin);
+		});
+		else functionThatReceivesDataFromApostMessageEventAndRespondsUsingTheSecondParameter(event.data.q);
+	};
+}
+
+
 ((() => {
+	if (urlSearchParams.has('embedded')) {
+		fetch = (askfor, askoptn) => {
+			return AskParent({ please: 'fetch', path: askfor, options: askoptn });
+		};
+	}
+	
 	if (!urlSearchParams.has('reload')) return;
 	
 	const nativeFetch = fetch;
