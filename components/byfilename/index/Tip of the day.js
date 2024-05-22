@@ -29,7 +29,7 @@
 			e.setAttribute('target', '_blank');
 			e.style.display = 'block';
 			e.style.position = 'absolute';
-			dom.lastChild.insertBefore(e, dom.lastChild.firstChild);
+			dom.appendChild(e);
 		}
 	}
 		
