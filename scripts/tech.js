@@ -197,11 +197,10 @@ RunWhenDomReady(()=>{
 			document.body.classList.add('embedded');
 			if ( parent ) {
 				InformParent( { height: getComputedStyle(document.documentElement).height });
-					let o = new ResizeObserver(entries => {
-						InformParent( { height: getComputedStyle(document.documentElement).height });
-					});
-					o.observe(document.documentElement, { box: "border-box" });
-				}
+				let o = new ResizeObserver(entries => {
+					InformParent( { height: getComputedStyle(document.documentElement).height });
+				});
+				o.observe(document.documentElement, { box: "border-box" });
 			}
 		}
 	});
