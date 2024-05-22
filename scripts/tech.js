@@ -335,7 +335,11 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 					helper.count++;
 					helper.sources[event.source] = { remember: result };
 				}
-				else conversation_helper[q] = { event.source: { remember: result }, count: 1 };
+				else {
+					helper = { count: 1 };
+					helper[event.source] = { remember: result };
+					conversation_helper[q] = helper;
+				}
 				if (doPost) doPost(); else doPost = true;
 				
 			};
