@@ -29,6 +29,16 @@ Components:
 			
 		config: <component-name>.jsprop
 			json object file
+			
+		priority: <component-name>.early, <component-name>.late
+			ordering help
+			each component calls any dependency when called
+			the main order of components is:
+				.early
+				.matching page name (when a wizard), and early+late
+				.other
+				.late
+			typically, the first content component becomes active
 		
 		extra component documents:
 			these do not interact with the other component file types, except the .forbid token file

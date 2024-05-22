@@ -1,6 +1,6 @@
 const CompleteComposeScript = PromiseAnything();
 ((async function () {
-	let components = {};
+	let components = {}, early = { }, late = {   }, a_little_early = {        };
 		
 	function addcomponent(path, name, ext) {
 		let exists = components[name];
@@ -24,6 +24,8 @@ const CompleteComposeScript = PromiseAnything();
 			case 'forbid':
 				components[name] = { forbid: true, dom: null };
 				return;
+			case 'early': early[name] = name; return;
+			case 'late': late[name] = name; return;
 			default: path = fetch(path, { credentials: "omit" });
 		}
 		exists[ext] = path;
@@ -39,7 +41,8 @@ const CompleteComposeScript = PromiseAnything();
 			if (x) files = x[1];
 		}
 	}
-	if (!files) files = 'index';
+	if (files) a_little_early[files] = files;
+	else files = 'index';
 	files = await FetchFileList('components/byfilename/' + files, Ignore);
 	
 	if (files)
@@ -240,11 +243,22 @@ const CompleteComposeScript = PromiseAnything();
 		
 		files = {};
 		
-		do { newResolution = false;
-			for (const name in components) {
-				await ResolveIntoDom(name);
-			}
-		} while (newResolution);
+		for (const check in early) if (components[check])
+			if	(late[check]) { a_little_early[check] = check; delete late[check]; }
+			else ResolveIntoDom(check);
+		for (const check in a_little_early) if (components[check] && !late[check]) ResolveIntoDom(check);		
+		
+		for (;;) {
+			do { newResolution = false;
+				for (const name in components) {
+					if (late && late[name]) continue;
+					await ResolveIntoDom(name);
+				}
+			} while (newResolution);
+			
+			if (late) { late = null; continue; }
+			break;
+		}
 		
 		for (let cdom in component_registry) {
 			cdom = component_registry[cdom];
