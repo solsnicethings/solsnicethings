@@ -14,11 +14,24 @@
 
 	tip = tip[Math.floor(new Date().getTime()/8.64e7) % tip.length];
 
-	for (const k in tip) {
+	for (let k in tip) {
 		let e = dom.appendChild( document.createElement('p') );
 		e.style.whiteSpace = 'pre-wrap';
 		e.innerText = k;
-		dom.appendChild(document.createElement('cite')).innerText = tip[k];
+		k = tip[k];
+		dom.appendChild(document.createElement('cite')).innerText = k;
+
+		if (/^[hH][tT][tT][pP][sS]:\/\/./.exec(k)) {
+			try { new URL(k); } 			catch { continue }
+			e = document.createElement('a');
+			e.innerText = ' [OPEN (in new tab/window)]';
+			e.setAttribute('href', k);
+			e.setAttribute('target', '_blank');
+			e.style.display = 'block';
+			e.style.textAlign = 'right';
+			e.position = 'absolute';
+			dom.lastChild.appendChild(e);
+		}
 	}
 		
 })());
