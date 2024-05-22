@@ -309,7 +309,7 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 		if (!q) return;
 		const id = event.data.id;
 		if (id) {
-			let helper = conversation_helper[q];
+			let helper = conversation_helper[id];
 			let sourcemem, remember;
 			if (helper) sourcemem = helper[event.source]; else sourcemem = undefined;
 			if (sourcemem) remember = sourcemem.remember; else remember = undefined;
@@ -324,7 +324,7 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 				if (result === undefined)
 				{
 					if (sourcemem)
-						if (helper.count == 1) delete conversation_helper[q];
+						if (helper.count == 1) delete conversation_helper[id];
 						else {
 							delete helper.sources[event.source];
 							helper.count--;
@@ -338,7 +338,7 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 				else {
 					helper = { count: 1 };
 					helper[event.source] = { remember: result };
-					conversation_helper[q] = helper;
+					conversation_helper[id] = helper;
 				}
 				if (doPost) doPost(); else doPost = true;
 			};
