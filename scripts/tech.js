@@ -288,7 +288,7 @@ async function AskParent(query, conversationId, deleteOnAnswer, parentWindow = p
 		event = event.data;
 		if (!(event.isAnswer && event.id == conversationId)) return;
 		window.removeEventListener('message', getReply);
-		if (deleteOnAnswer) EndConversation();
+		if (deleteOnAnswer) EndConversation(conversationId);
 		resolve.resolveIt(event.answerIs);
 	};
 	
