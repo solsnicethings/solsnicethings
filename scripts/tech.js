@@ -209,6 +209,9 @@ RunWhenDomReady(()=>{
 let post_listeners;
 
 function ListenForPostMessage(source, callback, origin) {
+	
+	let start_listener ;
+	if (post_listeners) start_listener = false; else { start_listener = true; post_listeners = {}; }
 		
 	if (source instanceof HTMLIFrameElement) {
 		if (!origin) {
@@ -228,11 +231,18 @@ function ListenForPostMessage(source, callback, origin) {
 	}
 	if (!origin) origin = location.origin;
 	
+	{
+		let bundle = post_listeners[source];
+		if (!bundle) { bundle = {}; post_listeners[source] = bundle; }
+		
+		let list = bundle[origin];
+		if (!list) { list = []; bundle[origin] = list; }
+		
+		list.push(callback);
+	}
 	
-	if (!post_listeners) {
-		post_listeners = {};
+	if (start_listener) {
 		window.addEventListener(   "message",   (event) => {
-			
 			let call = post_listeners[''];
 			if (call) {
 				post_listeners[''] = null;
@@ -254,15 +264,6 @@ function ListenForPostMessage(source, callback, origin) {
 			calls = call['*'];
 			if (calls) for (const c of calls) c(event);
 		});
-	}
-	{
-		let bundle = post_listeners[source];
-		if (!bundle) { bundle = {}; post_listeners[source] = bundle; }
-		
-		let list = bundle[origin];
-		if (!list) { list = []; bundle[origin] = list; }
-		
-		list.push(callback);
 	}
 }
 
