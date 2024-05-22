@@ -355,7 +355,7 @@ async function PerformAsFetchProxyAnsweringMachine(data, connection, recollectio
 		case 'fetch':
 			recollection = await fetch(data.path, data.options);
 			connection({
-				headers: recollection.headers,
+				//headers: recollection.headers,
 				ok: recollection.ok,
 				redirected: recollection.redirected,
 				status: recollection.status,
