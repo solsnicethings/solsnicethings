@@ -315,7 +315,7 @@ function AsAnsweringMachine(functionThatReceivesDataFromApostMessageEventAndResp
 		};*/ async function (askfor, askoptn) {
 			return {
 				json: () => { return AskParent({ please: 'fetch json', path: askfor, options: askoptn }); }
-				text: () => { return AskParent({ please: 'fetch text', path: askfor, options: askoptn }); }
+				'text': () => { return AskParent({ please: 'fetch text', path: askfor, options: askoptn }); }
 			};
 		};
 	}
