@@ -4,12 +4,14 @@
 	.fixwidth > :first-child  { width: 95cqw; margin-left: 3cqw; }
 }
 
-.loadmsg { display: none; visibility: hidden; }
+.loadmsg { display: none; visibility: hidden; border: double 0.4em rgba(0,0,0,0.4); padding-left: 3em; border-radius: 3%;
+background-color: var(--textbc, var(--bc));  color: var(--textfc, var(--fc)) }
 .loadmsg:first-child:last-child { display: block; visibility: visible; }
-.loadmsg:empty::before { display: block; white-space: pre-wrap; font-size: 0.85em;
- content: "Welcome to Waiting for Something to Load!\a\
-\a\
-Maybe something went wrong!            What could it be?                Broken CSS? No. The javascript..?\a\a\
+.loadmsg:empty::before, .loadmsg:empty::after { display: block; white-space: pre-wrap;
+}
+.loadmsg:empty::before { content: "Welcome to Waiting for Something to Load!";  border-bottom: groove 0.2em rgba(255,255,255,0.5); border-radius: 20%; font-weight: bold; }
+.loadmsg:empty::after { font-size: 0.6em; padding-left: 1em; font-family: verdana;
+content: "Maybe something went wrong!            What could it be?                Broken CSS? No. The javascript..?\a\a\
 YES! It is fantastically bippety boppy and could certainly fail.\a\
 Good thing too: all the actual contents are fetched by javascript calls. I... have a system!\a\a\
 We still using github pages? Works surprisingly well. Until your IP becomes rate limited because my templating approach requires querying the file lists via a github api.\a\a\

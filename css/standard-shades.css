@@ -5,6 +5,9 @@
   .bc { background-color: var(--bc) }
   .fc { color: var(--fc) }
   
+  .textbc { background-color: var(--textbc, var(--bc)) }
+  .textfc { color: var(--textfc, var(--fc)) }
+  
   .mutedbc { background-color: var(--mutedbc) }
   .mutedfc { color: var(--mutedfc) }
   
