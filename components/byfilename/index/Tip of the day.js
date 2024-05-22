@@ -27,8 +27,8 @@
 			e.innerText = ' [OPEN (in new tab/window)]';
 			e.setAttribute('href', k);
 			e.setAttribute('target', '_blank');
-			e.style.display = 'block';
-			e.style.position = 'absolute';
+			//e.style.display = 'block';
+			//e.style.position = 'absolute';
 			dom.appendChild(e);
 		}
 	}

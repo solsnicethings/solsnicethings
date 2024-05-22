@@ -2,7 +2,7 @@
 .fixwidth > :first-child { position: absolute; width: 90cqw; height: fit-content; margin: 0; overflow-x: hidden; z-index: 2; }
 
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
-p + cite, blockquote + cite
+p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; }
 
 body > label { display: block; }
 
