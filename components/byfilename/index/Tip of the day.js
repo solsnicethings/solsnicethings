@@ -18,7 +18,7 @@
 		let e = dom.appendChild( document.createElement('p') );
 		e.style.whiteSpace = 'pre-wrap';
 		e.innerText = k;
-		dom.appendChild('cite').innerText = tip[k];
+		dom.appendChild(document.createElement('cite')).innerText = tip[k];
 	}
 		
 })());
