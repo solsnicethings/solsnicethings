@@ -8,7 +8,6 @@
 	ListenForPostMessage(config, AsAnsweringMachine(async function (data, connection) {
 		if (data.height) {
 			config.style.height = data.height;
-			config.parentNode.style.height = data.height;
 		} else switch (data.please) {
 			case 'fetch':
 				connection(await fetch(data.path, data.options));

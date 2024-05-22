@@ -1,7 +1,7 @@
-.fixwidth { container: inline-size; }
-.fixwidth > :first-child { margin: 0; overflow-x: hidden; z-index: 2; }
+.fixwidth { container-type: inline-size; }
+.fixwidth > :first-child { margin: 0; overflow-x: hidden; }
 @container (width > 14em) {
-	.fixwidth > :first-child  { width: 90cqw; }
+	.fixwidth > :first-child  { width: 90cqw; margin-left: 1cqw; }
 }
 
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
