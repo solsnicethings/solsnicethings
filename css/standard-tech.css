@@ -4,6 +4,22 @@
 	.fixwidth > :first-child  { width: 95cqw; margin-left: 3cqw; }
 }
 
+.loadmsg { display: none; visibility: hidden; }
+.loadmsg:first-child:last-child { display: block; visibility: visible; }
+.loadmsg:empty::before { display: block; white-space: pre-wrap; font-size: 0.85em;
+ content: "Welcome to Waiting for Something to Load!\a\
+\a\
+Maybe something went wrong!            What could it be?                Broken CSS? No. The javascript..?\a\a\
+YES! It is fantastically bippety boppy and could certainly fail.\a\
+Good thing too: all the actual contents are fetched by javascript calls. I... have a system!\a\a\
+We still using github pages? Works surprisingly well. Until your IP becomes rate limited because my templating approach requires querying the file lists via a github api.\a\a\
+OH! Yes. Don't blindly load these pages a hundred times a day if you know what the github api is and need persistent access to it.\a\a\
+There isn't even anything real here yet! It's all... technicalities.\a\a\
+So this thing is written to try some programming methods, and aimed at doing most work clientside.\a\a\
+Cache/Refreshing: your browser caches separately each file needed by a page: each javascript source, each css, and each page fragment loaded in custom requests.\a\
+To really force a refresh, navigate to the path of the specific resource and have your browser refresh that. Possibly with CTRL+F5. Or clear your cache.\a\a\
+Still reading? Maybe the thing will never load."; }
+
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
 p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; padding-left: 2em; padding-top: 0.1em; padding-bottom: 0.1em; }
 
