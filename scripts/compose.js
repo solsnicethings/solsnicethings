@@ -245,8 +245,8 @@ const CompleteComposeScript = PromiseAnything();
 		
 		for (const check in early) if (components[check])
 			if	(late[check]) { a_little_early[check] = check; delete late[check]; }
-			else ResolveIntoDom(check);
-		for (const check in a_little_early) if (components[check] && !late[check]) ResolveIntoDom(check);		
+			else await ResolveIntoDom(check);
+		for (const check in a_little_early) if (components[check] && !late[check]) await ResolveIntoDom(check);
 		
 		for (;;) {
 			do { newResolution = false;
