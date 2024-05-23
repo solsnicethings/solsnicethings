@@ -149,16 +149,15 @@ const CompleteComposeScript = PromiseAnything();
 		if (resolver.html) {
 			dom.innerHTML = (await (await resolver.html).text()).trim();
 			dom.className = 'html';
-			if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 		} else {
 			if (resolver.txt) {
 				dom.appendChild(document.createElement('span')).appendChild(document.createTextNode( await (await resolver.txt).text() ));
 				dom.className = 'txt';
-				if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 			} else  dom.className = 'other';
-			if (jsprop.titleElement) dom.appendChild(document.createElement(jsprop.titleElement)).innerText = jsprop.titleText;
-			else if (jsprop.titleElement === undefined && jsprop.scope == 'main') dom.insertBefore(document.createElement('h3'), dom.firstChild).innerText = jsprop.titleText;
+			 if (jsprop.titleElement === undefined)
+				 if (jsprop.scope == 'main') jsprop.titleElement = 'h3'; else jsprop.titleElement = 'h2';
 		}
+		if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 		
 		if (jsprop.containerElement === null) dom = dom.firstChild;
 		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;		
