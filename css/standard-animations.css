@@ -1,0 +1,49 @@
+@media not (prefers-reduced-motion) {
+  
+  .loadmsg[first=""][last=""]:empty { animation: 7s linear 3s infinite running bordercolourchain; }
+  .loadmsg { animation: 19s linear 4s infinite running bordercolourblinks; }
+  
+}
+
+@keyframes bordercolourchain {
+  from, to {
+  border-left-color: var(--animcyclec1);
+  border-top-color: var(--animcyclec2);
+  border-right-color: var(--animcyclec3);
+  border-bottom-color: var(--animcyclec4);
+  }
+  
+  25% {
+  border-top-color: var(--animcyclec1);
+  border-right-color: var(--animcyclec2);
+  border-bottom-color: var(--animcyclec3);
+  border-left-color: var(--animcyclec4);
+  }
+  
+  50% {
+  border-right-color: var(--animcyclec1);
+  border-bottom-color: var(--animcyclec2);
+  border-left-color: var(--animcyclec3);
+  border-top-color: var(--animcyclec4);
+  }
+
+  75% {
+  border-bottom-color: var(--animcyclec1);
+  border-left-color: var(--animcyclec2);
+  border-top-color: var(--animcyclec3);
+  border-right-color: var(--animcyclec4);
+  }
+}
+@keyframes bordercolour4 {
+  from, to { border-color: var(--animcyclec1); }
+  25% { border-color: var(--animcyclec2); }
+  50% { border-color: var(--animcyclec3); }
+  75% { border-color: var(--animcyclec4); }
+}
+@keyframes bordercolourblinks {
+  from, 5%, 25%, 30%, 50%, 55%, 75%, 80%, to { border-color: var(--bordercolor, color); }
+  15% { border-color: var(--animcyclec2); }
+  40% { border-color: var(--animcyclec3); }
+  65% { border-color: var(--animcyclec4); }
+  90% { border-color: var(--animcyclec1); }
+}

@@ -1,6 +1,9 @@
 @import "standard-dark.css" screen and (prefers-color-scheme: dark);
 @import "standard-light.css" screen and (prefers-color-scheme: light);
 @import "standard-light.css" not screen;
+@import "standard-animations.css";
+@import "standard-style.css";
+@import "standard-tech.css";
 
   .bc { background-color: var(--bc) }
   .fc { color: var(--fc) }
@@ -77,3 +80,5 @@ btn.disabled, buttons > .disabled:not(a), .menu > .disabled:not(a) {
  
  diagnostic { color: var(--standoutfc); background-color: var(--standoutbc); }
  errormsg { color: var(--failfc); background-color: var(--failbc); }
+ 
+ 

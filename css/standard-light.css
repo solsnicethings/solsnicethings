@@ -24,5 +24,10 @@ html {
   
   --linkemphasisbc: #838d80; //rgba(0,0,0,0.37);
   --actionemphasisbc: rgba(255,255,255,0.5);
+  
+  --animcyclec1: #F99;
+  --animcyclec2: #CF9;
+  --animcyclec3: #9F9;
+  --animcyclec4: #77F;
 }
 

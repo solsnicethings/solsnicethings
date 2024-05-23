@@ -4,13 +4,14 @@
 	.fixwidth > :first-child  { width: 95cqw; margin-left: 3cqw; }
 }
 
-.loadmsg { display: none; visibility: hidden; border: double 0.4em rgba(0,0,0,0.4); padding-left: 3em; border-radius: 3%;
-background-color: var(--textbc, var(--bc));  color: var(--textfc, var(--fc)) }
+.loadmsg { display: none; visibility: hidden; border: double 0.4em var(--bordercolor); --bordercolor: rgba(0,0,0,0.4); padding-left: 3em; border-radius: 3%;
+background-color: var(--textbc, var(--bc));  color: var(--textfc, var(--fc)); }
 .loadmsg:first-child:last-child { display: block; visibility: visible; }
-.loadmsg:empty::before, .loadmsg:empty::after { display: block; white-space: pre-wrap;
-}
-.loadmsg:empty::before { content: "Welcome to Waiting for Something to Load!";  border-bottom: groove 0.2em rgba(255,255,255,0.5); border-radius: 20%; font-weight: bold; }
-.loadmsg:empty::after { font-size: 0.65em; padding-left: 1em; font-family: verdana;
+.loadmsg::before, .loadmsg::after { white-space: pre-wrap; }
+.loadmsg:empty:not([first])::before { content: "Welcome to Waiting for Something to Load!"; }
+.loadmsg::before { border-bottom: groove 0.2em rgba(255,255,255,0.5); border-radius: 20%; font-weight: bold; }
+.loadmsg::after { font-size: 0.65em; padding-left: 1em; font-family: verdana; }
+.loadmsg:empty:not([last])::after {
 content: "Maybe something went wrong!            What could it be?                Broken CSS? No. The javascript..?\a\a\
 YES! It is fantastically bippety boppy and could certainly fail.\a\
 Good thing too: all the actual contents are fetched by javascript calls. I... have a system!\a\a\
@@ -21,6 +22,12 @@ So this thing is written to try some programming methods, and aimed at doing mos
 Cache/Refreshing: your browser caches separately each file needed by a page: each javascript source, each css, and each page fragment loaded in custom requests.\a\
 To really force a refresh, navigate to the path of the specific resource and have your browser refresh that. Possibly with CTRL+F5. Or clear your cache.\a\a\
 Still reading? Maybe the thing will never load."; }
+
+.loadmsg[first=""]:empty::before, .loadmsg[last=""]:empty::after { display: none; }
+.loadmsg[first]::before, loadmsg[last]::after, .loadmsg:empty::before, .loadmsg:empty::after { display: block; }
+.loadmsg[first]::before { content: attr(first); }
+.loadmsg[last]::after { content: attr(last); }
+
 
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
 p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; padding-left: 2em; padding-top: 0.1em; padding-bottom: 0.1em; }
