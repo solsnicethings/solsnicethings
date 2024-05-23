@@ -7,7 +7,7 @@
 	.fixwidth > :first-child  { width: 95cqw; margin-left: 3cqw; }
 }
 
-.alonely { display: none; visibility: hidden;  }
+.notImmediatelyCrashed .alonely { display: none; visibility: hidden;  }
 .alonely:first-child:last-child { display: block; visibility: visible; }
 
 .loadmsg:empty:not(.alonely), .loadmsg[first]:not([first=""]):not(.alonely), .loadmsg[last]:not([last=""]):not(.alonely) { display: block; }

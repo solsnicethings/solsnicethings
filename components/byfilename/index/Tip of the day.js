@@ -7,7 +7,7 @@
 		{"tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length]":
 			'https://stackoverflow.com/questions/12739171/javascript-epoch-time-in-days'
 		},
-		{"Github provides free website hosting. You start the site by creating a public repository called <your-username>.github.io. It autopublishes the changes you push.",
+		{"Github provides free website hosting. You start the site by creating a public repository called <your-username>.github.io. It autopublishes the changes you push.":
 			'https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site'
 		},
 		{"For application/x-www-form-urlencoded, spaces are to be replaced by +, so one may wish to follow a encodeURIComponent() replacement with an additional replacement of %20 with +.":
@@ -25,7 +25,7 @@
 		"\tBut perhaps more important is your own web of unstated perceptions and expectations, because you are uniquely positioned to catch yourself and ask: \n" +
 		"\t\tWhat am I fighting against here? What do I fear is being taken from me?\n" +
 		"\t\tHas that happened before? With other people?\n" +
-		"\t\tWhat would make me feel safe and happy again in spite of what just happened? Can I articulate it, and request it? Can it be independent of who is right or justified?",
+		"\t\tWhat would make me feel safe and happy again in spite of what just happened? Can I articulate it, and request it? Can it be independent of who is right or justified?":
 			'I contemplate emotions much. I wish people the ability to help themselves and one another with understanding the needs indicated by the emotions.'
 		}
 	];

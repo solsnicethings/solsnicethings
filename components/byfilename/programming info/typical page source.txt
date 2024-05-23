@@ -32,7 +32,7 @@
 
 
 </head>
-<body class=home>
+<body class=notImmediatelyCrashed>
 
 <header><h2>Static info for <a href="/">Hjelphjelp</a></h2></header>
 

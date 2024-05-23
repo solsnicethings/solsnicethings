@@ -7,15 +7,20 @@
 	
 	let fetches = {};
 	
-	ListenForPostMessage(config, AsAnsweringMachine(function (data, connection, recollection) {
-		if (data.height) {
-			config.style.height = data.height;
-		} else return PerformAsFetchProxyAnsweringMachine(data, connection, recollection);
-	}));
-	
 	//config.setAttribute('sandbox', 'allow-popups-to-escape-sandbox allow-popups allow-same-origin allow-scripts');
 	config.setAttribute('title', 'Configuration');
-	config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
+	
+	const clck = e => {
+		e.currentTarget.removeEventListener(clck);
+		ListenForPostMessage(config, AsAnsweringMachine(function (data, connection, recollection) {
+			if (data.height) {
+				config.style.height = data.height;
+			} else return PerformAsFetchProxyAnsweringMachine(data, connection, recollection);
+		}));
+		config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
+	};
+	
+	dom.addEventListener(clck);
 	
 	{
 		let fallback = config.appendChild(document.createElement('a'));

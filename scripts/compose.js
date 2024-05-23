@@ -6,6 +6,7 @@ const CompleteComposeScript = PromiseAnything();
 		let exists = components[name];
 		if (exists)
 		switch (ext) {
+			case 'early': case 'late': case 'forbid': break;
 			case 'html':
 			case 'txt':
 				if (exists.txt || exists.html) return;
@@ -277,6 +278,7 @@ const CompleteComposeScript = PromiseAnything();
 		while (files = document.querySelector('.pendingcontents:empty')) files.parentNode.removeChild(files);
 		while (files = document.querySelector('.pendingcontents')) files.classList.remove('pendingcontents');
 		
+		document.body.classList.add('notImmediatelyCrashed');
 		CompleteComposeScript.resolveIt();
 	});
 })());
