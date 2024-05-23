@@ -28,7 +28,12 @@
 		"\t\tWhat am I fighting against here? What do I fear is being taken from me?\n" +
 		"\t\tHas that happened before? With other people?\n" +
 		"\t\tWhat would make me feel safe and happy again in spite of what just happened? Can I articulate it, and request it? Can it be independent of who is right or justified?"] =
-			'I contemplate emotions much. I wish people the ability to help themselves and one another with understanding the needs indicated by the emotions.';
+			'I contemplate emotions much. I wish people the ability to help themselves and one another with understanding the needs indicated by the emotions.\n\n' +
+			"ALSO: In case you're ever really very wrong about something important:\n" +
+			'\tConsider how you would feel if you had a big fight with someone and it ended with them saying "Actually, I am wrong. I see it," and maybe apologising as well.\n' +
+			'\tCould it soften your opinion and ease your distress? Why were you bothering to fight over anything unless this is a good outcome?\n' +
+			'\t... and if that is how it is for you when they are wrong, could it be that discovering that you are wrong is a lot safer and more productive than it feels?\n' +
+			'\t\tYou are the only one who can satisfactorily discover and conclude that you are wrong, so you need to keep an eye out for that possibility. The same goes for the other person.';
 
 	tipOfTheDatabase = tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length];
 
