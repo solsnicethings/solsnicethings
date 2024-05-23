@@ -11,7 +11,7 @@
 	config.setAttribute('title', 'Configuration');
 	
 	const clck = e => {
-		e.currentTarget.removeEventListener(clck);
+		e.currentTarget.removeEventListener('click', clck);
 		ListenForPostMessage(config, AsAnsweringMachine(function (data, connection, recollection) {
 			if (data.height) {
 				config.style.height = data.height;
