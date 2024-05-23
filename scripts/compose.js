@@ -15,18 +15,19 @@ const CompleteComposeScript = PromiseAnything();
 		}
 		else exists = {};
 		switch (ext) {
-			case 'css':
-				name += ':' + ext;
-				if (!components[name]) components[name] = { special: ext, ext: path };
-				return;
-
 			case 'js': break;
 			case 'forbid':
 				components[name] = { forbid: true, dom: null };
 				return;
 			case 'early': early[name] = name; return;
 			case 'late': late[name] = name; return;
-			default: path = fetch(path, { credentials: "omit" });
+			case 'html': case 'txt': path = fetch(path, { credentials: "omit" }); break;
+			
+			default:
+				name += ':' + ext;
+				if (!components[name]) components[name] = { special: ext, ext: path };
+				return;
+
 		}
 		exists[ext] = path;
 		components[name] = exists;
@@ -144,13 +145,13 @@ const CompleteComposeScript = PromiseAnything();
 		
 		if (jsprop.titleText === undefined) jsprop.titleText = component;
 		
-			if (resolver.html) {
+		if (resolver.html) {
 			dom.innerHTML = (await (await resolver.html).text()).trim();
 			dom.className = 'html';
 			if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 		} else {
 			if (resolver.txt) {
-				dom.innerText = await (await resolver.txt).text();
+				dom.appendChild(document.createElement('span')).appendChild(document.createTextNode( await (await resolver.txt).text() ));
 				dom.className = 'txt';
 				if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 			} else  dom.className = 'other';
