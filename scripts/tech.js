@@ -89,7 +89,7 @@ function AddDocument(srchref, containWidth = false, target = null, allowRelocate
 			}
 		}
 		containWidth = document.createElement('div');
-		containWidth.className = 'fixwidth');
+		containWidth.className = 'fixwidth';
 		containWidth.appendChild(x);
 		target.appendChild(containWidth);
 		return x;
