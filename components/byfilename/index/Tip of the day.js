@@ -12,10 +12,6 @@
 		},
 		{"For application/x-www-form-urlencoded, spaces are to be replaced by +, so one may wish to follow a encodeURIComponent() replacement with an additional replacement of %20 with +.":
 			'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent'
-		},
-		{'In most widely adopted programming languages/environments you can assume, albeit with great frustration and much "It is not supposed to do that!" that ' +
-		'the system is more reliable than your code, which is nice to know when your own code is what you can debug. In powershell... undefined behaviours dominate the bugs.':
-			"or maybe they are defined, but the definitions keep changing... I don't enjoy having the actual types serialised away due to the context being script execution rather than interactive."
 		}
 	];
 	let e = {};	e['Ill justified feelings are no less feelings. Feelings that "create problems" rather than "point to a practical solution" are often quite important. Important or not, they are ' +
@@ -38,6 +34,11 @@
 			'\t... and if that is how it is for you when they are wrong, could it be that discovering that you are wrong is a lot safer and more productive than it feels?\n' +
 			'\t\tYou are the only one who can satisfactorily discover and conclude that you are wrong, so you need to keep an eye out for that possibility. The same goes for the other person.';
 	tipOfTheDatabase.push(e);
+	
+	e = {}; e['In most widely adopted programming languages/environments you can assume, albeit with great frustration and much "It is not supposed to do that!" that ' +
+		'the system is more reliable than your code, which is nice to know when your own code is what you can debug. In powershell... undefined behaviours dominate the bugs.'] =
+			"or maybe they are defined, but the definitions keep changing... I don't enjoy having the actual types serialised away due to the context being script execution rather than interactive."
+	tipOfTheDatabase.push(e);		
 
 	tipOfTheDatabase = tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length];
 
