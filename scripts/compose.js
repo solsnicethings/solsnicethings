@@ -22,7 +22,7 @@ const CompleteComposeScript = PromiseAnything();
 				return;
 			case 'early': early[name] = name; return;
 			case 'late': late[name] = name; return;
-			case 'html': case 'txt': path = fetch(path, { credentials: "omit" }); break;
+			case 'html': case 'txt': case 'jsprop': path = fetch(path, { credentials: "omit" }); break;
 			
 			default:
 				name += ':' + ext;
