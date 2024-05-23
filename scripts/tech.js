@@ -46,7 +46,7 @@ function AddScript(src, returnLoadPromise = false, target = document.head) {
 	target.appendChild(e);
 	return src;
 }
-function AddDocument(srchref, target = null) {
+function AddDocument(srchref, target = null, allowRelocateToHead = false) {
 	let x = component_registry[srchref];
 	if (!x) {
 		x = /\.[^\/\.]+$/.exec(srchref);
@@ -57,6 +57,7 @@ function AddDocument(srchref, target = null) {
 				x.setAttribute('href', srchref);
 				x.setAttribute('rel', 'stylesheet');
 				x.setAttribute('type', 'text/css');
+				if (allowRelocateToHead) target = document.head;
 				break;
 				
 				case '.jpg': case '.svg': case '.png': case '.bmp':
@@ -68,18 +69,16 @@ function AddDocument(srchref, target = null) {
 				default: x = null; break;
 			}
 		if (!x) {
-			if (target != document.head) {
-				if (target === null) target = document.body;
-				x = document.createElement('iframe');
-				x.setAttribute('src', srchref);
-			}
+			if (target == document.head) return undefined;
+			if (target === null) target = document.body;
+			x = document.createElement('iframe');
+			x.setAttribute('src', srchref);
 		}
 		component_registry[srchref] = x;
 	}
 	if (target === null) target = document.head;
 	if (target != x.parentNode) target.appendChild(x);
-	if (x) return x;
-	return null;
+	return x;
 }
 
 function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
