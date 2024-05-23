@@ -156,8 +156,8 @@ const CompleteComposeScript = PromiseAnything();
 				dom.className = 'txt';
 				if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
 			} else  dom.className = 'other';
-			if (jsprop.titleElement === undefined && jsprop.scope == 'main')
-				dom.insertBefore(document.createElement('h3'), dom.firstChild).innerText = jsprop.titleText;
+			if (jsprop.titleElement) dom.appendChild(document.createElement(jsprop.titleElement)).innerText = jsprop.titleText;
+			else if (jsprop.titleElement === undefined && jsprop.scope == 'main') dom.insertBefore(document.createElement('h3'), dom.firstChild).innerText = jsprop.titleText;
 		}
 		
 		if (jsprop.containerElement === null) dom = dom.firstChild;
