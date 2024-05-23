@@ -1,3 +1,26 @@
+		Page with dynamic content and standard layout:
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Hjelphjelp (we try to help one another)</title>
+
+<link href="/css/standard.css" rel="stylesheet" type="text/css" />
+
+<script src="/scripts/config.js"></script>
+<script src="/scripts/tech.js"></script>
+<script src="/scripts/compose.js"></script>
+
+</head>
+<body class=home>
+<div class="loadmsg alonely"></div>
+</body>
+</html>
+
+		Page with no dynamic content and standard layout:
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,12 +1,19 @@
+.txt { white-space: pre-wrap; font-family: verdana; font-size: 0.9em; }
+.txt::first-line { font-size: 1.15em; }
+
 .fixwidth { container-type: inline-size; }
 .fixwidth > :first-child { margin: 0; overflow-x: hidden; }
 @container (width > 14em) {
 	.fixwidth > :first-child  { width: 95cqw; margin-left: 3cqw; }
 }
 
-.loadmsg { display: none; visibility: hidden; border: double 0.4em var(--bordercolor); --bordercolor: rgba(0,0,0,0.4); padding-left: 3em; border-radius: 3%;
+.alonely { display: none; visibility: hidden;  }
+.alonely:first-child:last-child { display: block; visibility: visible; }
+
+.loadmsg:empty:not(.alonely), .loadmsg[first]:not([first=""]):not(.alonely), .loadmsg[last]:not([last=""]):not(.alonely) { display: block; }
+
+.loadmsg { border: double 0.4em var(--bordercolor); --bordercolor: rgba(0,0,0,0.4); padding-left: 3em; border-radius: 3%;
 background-color: var(--textbc, var(--bc));  color: var(--textfc, var(--fc)); }
-.loadmsg:first-child:last-child { display: block; visibility: visible; }
 .loadmsg::before, .loadmsg::after { white-space: pre-wrap; }
 .loadmsg:empty:not([first])::before { content: "Welcome to Waiting for Something to Load!"; }
 .loadmsg::before { border-bottom: groove 0.2em rgba(255,255,255,0.5); border-radius: 20%; font-weight: bold; }

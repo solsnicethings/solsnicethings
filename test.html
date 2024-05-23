@@ -21,21 +21,21 @@ const component_registry = {};
 </header>
 
 <h2>Loadmsg tests</h2>
-<div><div class=loadmsg></div></div><hr>
-<div><div first="" last="" class=loadmsg></div></div><hr>
-<div><div first="Leading message" last="Trailing message" class=loadmsg></div></div><hr>
-<div><div class=loadmsg>This message is in the body</div></div><hr>
-<div><div first="headloader" class=loadmsg>This is the body too</div></div><hr>
-<div><div last=footloader class=loadmsg>And body</div></div><hr>
-<div><div first="Loading all properties" last="All properties loaded" class=loadmsg>And in this one we are showing everything.</div></div><hr>
+<small class=loadmsg></small>
+<small first="" last="" class=loadmsg></small>
+<small first="Leading message" last="Trailing message" class=loadmsg></small>
+<small class=loadmsg>This message is in the body</small>
+<small first="headloader" class=loadmsg>This is the body too</small>
+<small last=footloader class=loadmsg>And body</small>
+<small first="Loading all properties" last="All properties loaded" class=loadmsg>And in this one we are showing everything.</small>
 
 
 Unseen loadmessage:
-<div class=loadmsg>
+<div class="loadmsg alonely">
 </div>
 
 Seen loadmessage:
-<div><div class=loadmsg></div></div>
+<div><div class="loadmsg alonely"></div></div>
 
 	<diagnostic class=diagnostic>diagnostic <action>X</action><action>X</action><action>g</action><action>s</action></diagnostic>
 	<errormsg class=diagnostic>diagnostic <action>X</action></errormsg>
