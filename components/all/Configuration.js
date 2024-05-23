@@ -20,7 +20,7 @@
 		config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
 	};
 	
-	dom.addEventListener(clck);
+	dom.addEventListener('click', clck);
 	
 	{
 		let fallback = config.appendChild(document.createElement('a'));
