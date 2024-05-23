@@ -18,8 +18,7 @@
 			"or maybe they are defined, but the definitions keep changing... I don't enjoy having the actual types serialised away due to the context being script execution rather than interactive."
 		}
 	];
-	tipOfTheDatabase[
-		 'Ill justified feelings are no less feelings. Feelings that "create problems" rather than "point to a practical solution" are often quite important. Important or not, they are ' +
+	let e = {};	e['Ill justified feelings are no less feelings. Feelings that "create problems" rather than "point to a practical solution" are often quite important. Important or not, they are ' +
 		'part of you, and it will not serve you well to uncritically loathe, supress or remove them. Strong negative feelings sit in the middle of complex perceptions and needs. ' +
 		'\tThinking you have no right to feel what you feel is not doing you any good. You can gainfully scrutinize your feelings, because feelings can outrun and overpower reasoning. ' +
 		'Your past experiences are part of your present emotional responses. Problems you could not solve with one person may now be fears that keep you looking for and reacting to ' +
@@ -38,11 +37,12 @@
 			'\tCould it soften your opinion and ease your distress? Why were you bothering to fight over anything unless this is a good outcome?\n' +
 			'\t... and if that is how it is for you when they are wrong, could it be that discovering that you are wrong is a lot safer and more productive than it feels?\n' +
 			'\t\tYou are the only one who can satisfactorily discover and conclude that you are wrong, so you need to keep an eye out for that possibility. The same goes for the other person.';
+	tipOfTheDatabase.push(e);
 
 	tipOfTheDatabase = tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length];
 
 	for (let k in tipOfTheDatabase) {
-		let e = dom.appendChild( document.createElement('p') );
+		e = dom.appendChild( document.createElement('p') );
 		e.style.whiteSpace = 'pre-wrap';
 		e.innerText = k;
 		k = tipOfTheDatabase[k];
