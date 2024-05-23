@@ -102,7 +102,7 @@ const CompleteComposeScript = PromiseAnything();
 					case 'footer':
 						jsprop = { placement: 'last', containerElement: 'footer' };
 						break;
-					case 'main':
+					case 'main': case 'script':
 						jsprop = { containerElement: null };
 						break;
 					default:

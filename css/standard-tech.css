@@ -36,7 +36,6 @@ Still reading? Maybe the thing will never load."; }
 .loadmsg[first]::before { content: attr(first); }
 .loadmsg[last]::after { content: attr(last); }
 
-
 p + cite, blockquote + cite { display: block; padding-left: 4em;  border-left: ridge 1.5em; border-radius: 90%; margin-top: 0.5em; margin-bottom: 1.5em; }
 p + cite > a:last-child, blockquote + cite > a:last-child { display: block; position: absolute; padding-left: 2em; padding-top: 0.1em; padding-bottom: 0.1em; }
 
