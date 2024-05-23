@@ -23,7 +23,7 @@
 		"When you have a strong negative feeling, the signal to start feeling it is usually some external stimulus, like someone treating your time as less valuable than theirs, or " +
 		"some other impression that someone disrespects you.\n" +
 		"\tAnd the impression may be right, and it may be wrong. There may be a subtle nuance.\n" +
-		"\tAnd it is worth considering that the other person may have a different understaning, but also unknown motivators, things they are trying to communicate, but forgetting to say.\n"
+		"\tAnd it is worth considering that the other person may have a different understaning, but also unknown motivators, things they are trying to communicate, but forgetting to say.\n" +
 		"\tBut perhaps more important is your own web of unstated perceptions and expectations, because you are uniquely positioned to catch yourself and ask: \n" +
 		"\t\tWhat am I fighting against here? What do I fear is being taken from me?\n" +
 		"\t\tHas that happened before? With other people?\n" +
