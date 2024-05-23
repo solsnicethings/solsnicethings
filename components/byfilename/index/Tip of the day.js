@@ -12,6 +12,10 @@
 		},
 		{"For application/x-www-form-urlencoded, spaces are to be replaced by +, so one may wish to follow a encodeURIComponent() replacement with an additional replacement of %20 with +.":
 			'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent'
+		},
+		{'In most widely adopted programming languages/environments you can assume, albeit with great frustration and much "It is not supposed to do that!" that ' +
+		'the system is more reliable than your code, which is nice to know when your own code is what you can debug. In powershell... undefined behaviours dominate the bugs.':
+			"or maybe they are defined, but the definitions keep changing... I don't enjoy having the actual types serialised away due to the context being script execution rather than interactive."
 		}
 	];
 	tipOfTheDatabase[
