@@ -102,8 +102,11 @@ const CompleteComposeScript = PromiseAnything();
 					case 'footer':
 						jsprop = { placement: 'last', containerElement: 'footer' };
 						break;
-					case 'main': case 'script':
+					case 'main':
 						jsprop = { containerElement: null };
+						break;
+					case 'script':
+						jsprop = { containerElement: null, requiresContents: true, titleElement: null };
 						break;
 					default:
 						jsprop = { scope: 'main', query: 'td:not(:first-child:not(:empty))', titleElement: 'btn' , writenameattribute: 'activator' };
