@@ -136,7 +136,7 @@ const CompleteComposeScript = PromiseAnything();
 			if (scope) scope = scope.querySelector(jsprop.query);
 		}
 		if (!scope) {		
-			if (resolver.getdoc) return resolver.dom = AddDocument(resolver.getdoc);
+			if (resolver.getdoc) return resolver.dom = AddDocument(resolver.getdoc, true);
 		}
 		
 		let dom = jsprop.containerElement;
@@ -156,7 +156,7 @@ const CompleteComposeScript = PromiseAnything();
 				 if (jsprop.scope == 'main') jsprop.titleElement = 'h3'; else jsprop.titleElement = 'h2';
 		}
 		if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
-		if (resolver.getdoc) { AddDocument(resolver.getdoc, dom, true); }
+		if (resolver.getdoc) { AddDocument(resolver.getdoc, true, dom, true); }
 		
 		if (jsprop.containerElement === null) dom = dom.firstChild;
 		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;		

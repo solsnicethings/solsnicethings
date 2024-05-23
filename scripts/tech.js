@@ -46,7 +46,7 @@ function AddScript(src, returnLoadPromise = false, target = document.head) {
 	target.appendChild(e);
 	return src;
 }
-function AddDocument(srchref, target = null, allowRelocateToHead = false) {
+function AddDocument(srchref, containWidth = false, target = null, allowRelocateToHead = false) {
 	let x = component_registry[srchref];
 	if (!x) {
 		x = /\.[^\/\.]+$/.exec(srchref);
@@ -77,6 +77,23 @@ function AddDocument(srchref, target = null, allowRelocateToHead = false) {
 		component_registry[srchref] = x;
 	}
 	if (target === null) target = document.head;
+	if (containWidth && target != document.head)
+	{
+		containWidth = x.parentNode;
+		if (containWidth && containWidth.firstElementChild == x && containWidth.classList.contains('fixwidth')) {
+			if (containWidth.parentNode == target) return x;
+			if (x == containWidth.firstChild && x == containWidth.lastChild)
+			{
+				target.appendChild(containWidth);
+				return x;
+			}
+		}
+		containWidth = document.createElement('div');
+		containWidth.className = 'fixwidth');
+		containWidth.appendChild(x);
+		target.appendChild(containWidth);
+		return x;
+	}
 	if (target != x.parentNode) target.appendChild(x);
 	return x;
 }
