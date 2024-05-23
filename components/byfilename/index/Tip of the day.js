@@ -3,8 +3,8 @@
 	let dom = component_registry[document.currentScript];
 	dom = component_registry[dom].dom;
 	
-	let tip = [
-		{"tipsOfDays[Math.floor(Date.now()/8.64e7) % tipsOfDays.length]":
+	let tipOfTheDatabase = [
+		{"tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length]":
 			'https://stackoverflow.com/questions/12739171/javascript-epoch-time-in-days'
 		},
 		{"Github provides free website hosting. You start the site by creating a public repository called <your-username>.github.io. It autopublishes the changes you push.",
@@ -30,13 +30,13 @@
 		}
 	];
 
-	tip = tip[Math.floor(Date.now()/8.64e7) % tip.length];
+	tipOfTheDatabase = tipOfTheDatabase[Math.floor(Date.now()/8.64e7) % tipOfTheDatabase.length];
 
-	for (let k in tip) {
+	for (let k in tipOfTheDatabase) {
 		let e = dom.appendChild( document.createElement('p') );
 		e.style.whiteSpace = 'pre-wrap';
 		e.innerText = k;
-		k = tip[k];
+		k = tipOfTheDatabase[k];
 		dom.appendChild(document.createElement('cite')).innerText = k;
 
 		if (/^[hH][tT][tT][pP][sS]:\/\/./.exec(k)) {
