@@ -162,19 +162,19 @@ const CompleteComposeScript = PromiseAnything();
 		if (resolver.getdoc) { AddDocument(resolver.getdoc, true, dom, true); }
 		
 		if (jsprop.containerElement === null) dom = dom.firstChild;
-		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;		
-		
-		if (dom && resolver.writenameattribute) dom.setAttribute(resolver.writenameattribute, component);
-		
-		if (jsprop.requiresSubcomponents)
-			dom.className += ' pendingsub';
-		if (jsprop.requiresContents)
-			dom.className += ' pendingcontents';
+		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;
 
 		resolver.dom = dom;
 		newResolution = true;
+		
+		if (dom)
+		{
+			if (resolver.writenameattribute) dom.setAttribute(resolver.writenameattribute, component);
+			if (jsprop.requiresSubcomponents)
+				dom.className += ' pendingsub';
+			if (jsprop.requiresContents)
+				dom.className += ' pendingcontents';
 				
-		if (dom) {
 			component_registry[component] = { dom: dom };
 			
 			let x = dom.parentNode;
