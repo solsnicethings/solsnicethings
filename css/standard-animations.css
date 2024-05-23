@@ -1,7 +1,7 @@
 @media not (prefers-reduced-motion) {
   
   .loadmsg[first=""][last=""]:empty { animation: 7s linear 3s infinite running bordercolourchain; }
-  .loadmsg { animation: 19s linear 4s infinite running bordercolourblinks; }
+  .loadmsg { animation: 27s linear 4s infinite running bordercolourblinks; }
   
 }
 
