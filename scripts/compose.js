@@ -41,13 +41,14 @@ const CompleteComposeScript = PromiseAnything();
 	}
 
 	let files = urlSearchParams.get('pagesource');
-	if (!files) files = location.pathname;
-	if (files) {
-		files = /\/([^\/]+)$/.exec(files);
+	if (!files) { files = location.pathname;
 		if (files) {
-			files = files[1];
-			let x = /^(.+)\.[^\.]*$/.exec(files);
-			if (x) files = x[1];
+			files = /\/([^\/]+)$/.exec(files);
+			if (files) {
+				files = files[1];
+				let x = /^(.+)\.[^\.]*$/.exec(files);
+				if (x) files = x[1];
+			}
 		}
 	}
 	if (files) a_little_early[files] = files;
