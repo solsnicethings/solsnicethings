@@ -4,12 +4,16 @@ const CompleteComposeScript = PromiseAnything();
 		
 	function addcomponent(path, name, ext) {
 		let exists = components[name];
+		if (!exists) {
+			exists = document.getElementById(name);
+			if (exists) { exists = { byId: exists, dom: exists }; components[name] = exists; }
+		}
 		if (exists)
 		switch (ext) {
 			case 'early': case 'late': case 'forbid': break;
 			case 'html':
 			case 'txt':
-				if (exists.txt || exists.html) return;
+				if (exists.txt || exists.html || exists.byId) return;
 			default:
 				if (exists.forbid || exists[ext]) return;
 				break;

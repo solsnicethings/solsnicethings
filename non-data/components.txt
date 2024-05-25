@@ -2,7 +2,10 @@ Components:
 
 	files with contents and code, bundled by name and fetched with javascript
 	when multiple files compete for the same role under a name, the one that is stored in the page name specific structure takes precedence
-		
+	
+	the scoping/placement and contents (html/txt) will be ignored if an element in the dom has an id equal to the component's
+		name at the start of composing; the id element then assumes the role of the inserted component in composition
+			
 	the applicable file roles are:
 	
 		prevention: <component-name>.forbid
