@@ -6,7 +6,10 @@
 	let populate = async function() {
 		let pages = {};
 		for (const cpage of (await FetchFileList('components/byfilename', null, null)))
-			pages[cpage] = 'template.html?pagesource=' + cpage;
+		{
+			let x = /\/([^\/]+)$/.exec(cpage);
+			pages[x[1]] = 'template.html?pagesource=' + cpage;
+		}
 		for (const page of (await FetchFileList('pages'))) {
 			let x = /pages\/([^\/]+)\.[^\.\/]+$/.exec(page);
 			if (x) x = x[1]; else x = page;
