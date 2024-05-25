@@ -8,7 +8,7 @@
 		for (const cpage of (await FetchFileList('components/byfilename', null, null)))
 		{
 			let x = /\/([^\/]+)$/.exec(cpage);
-			pages[x[1]] = 'template.html?pagesource=' + cpage;
+			pages[x[1]] = 'template.html?pagesource=' + x[1];
 		}
 		for (const page of (await FetchFileList('pages'))) {
 			let x = /pages\/([^\/]+)\.[^\.\/]+$/.exec(page);
