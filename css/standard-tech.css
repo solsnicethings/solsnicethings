@@ -46,7 +46,7 @@ body > label { display: block; }
 
 .pendingsub, .pendingscript, .pendingcontents:empty { display: none !important; visibility: none; position: absolute; }
 
-.concealer:not(:checked):not([input-checked]) ~ * { display: none; visibility: hidden; }
+.concealer:not(:checked):not([input-checked]) ~ :not(footer) { display: none; visibility: hidden; }
 
 .righthalflabel { position: absolute; right: 50vw; text-align: right; }
 .righthalflabel + * { padding-left: 51vw; }
