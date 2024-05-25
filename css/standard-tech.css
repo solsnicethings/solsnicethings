@@ -1,5 +1,6 @@
-.txt > span { white-space: pre-wrap; font-family: verdana; font-size: 0.9em; }
+.txt > span { white-space: pre-wrap; font-family: verdana; font-size: 0.87em; }
 .txt > span::first-line { font-size: 1.15em; }
+.txt > span::before { float: right; width: min(max(16%, min(40em, 25vw)), 25%); height: 15em; content: 'hidden'; visibility: hidden; }
 
 .fixwidth { container-type: inline-size; }
 .fixwidth > :first-child { margin: 0; overflow-x: hidden; }
