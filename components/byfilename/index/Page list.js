@@ -4,19 +4,27 @@
 	dom = component_registry[dom].dom;
 	
 	let populate = async function() {
-		let pages = await FetchFileList('pages');
-		if (!pages) {
-			dom.innerText = 'No pages were retrieved';
-			return;
+		let pages = {};
+		for (const cpage of (await FetchFileList('components/byfilename', null, null)))
+			pages[cpage] = 'template.html?pagesource=' + cpage;
+		for (const page of (await FetchFileList('pages'))) {
+			let x = /pages\/([^\/]+)\.[^\.\/]+$/.exec(p);
+			if (x) x = x[1]; else x = page;
+			pages[x] = page;
 		}
+
 		dom = dom.appendChild(document.createElement('buttons'))
 		
-		for (const p of pages) {
+		for (const p in pages) {
 			let a = document.createElement('a');
-			a.href = p;
-			let x = /pages\/([^\/]+)\.[^\.\/]+$/.exec(p);
-			if (x) a.innerText = x[1]; else a.innerText = p;
+			a.href = pages[p];
+			a.innerText = p;
 			dom.appendChild(a);
+		}
+		
+		if (!dom.firstChild) {
+			dom.innerText = 'No pages were retrieved';
+			return;
 		}
 	};
 	

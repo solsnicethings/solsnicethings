@@ -1,4 +1,4 @@
-async function FetchFileList(path, exceptionHandler) {
+async function FetchFileList(path, exceptionHandler, fileType = 'file') {
 	
 	const response = await fetch('https://api.github.com/repos/' + github_user + '/' + github_repo + '/contents/' + path, { credentials: "omit" });
 	
@@ -16,7 +16,7 @@ async function FetchFileList(path, exceptionHandler) {
 	let filelist = [];
 	
 	for (let file of data) {
-		if (file.type == 'file') {
+		if (file.type == fileType || !fileType) {
 			file = file.path;
 			if (!file.startsWith('/')) file = '/' + file;
 			filelist.push(file); 

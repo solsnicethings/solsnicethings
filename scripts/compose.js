@@ -34,7 +34,8 @@ const CompleteComposeScript = PromiseAnything();
 		components[name] = exists;
 	}
 
-	let files = location.pathname;
+	let files = urlSearchParams.get('pagesource');
+	if (!files) files = location.pathname;
 	if (files) {
 		files = /\/([^\/]+)$/.exec(files);
 		if (files) {
