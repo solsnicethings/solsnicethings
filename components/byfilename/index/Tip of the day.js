@@ -12,7 +12,8 @@
 		},
 		{"For application/x-www-form-urlencoded, spaces are to be replaced by +, so one may wish to follow a encodeURIComponent() replacement with an additional replacement of %20 with +.":
 			'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent'
-		}
+		},
+		{"MAKE IT GAYER": 'Rebecca Sugar, in fiction if not also in fact'}
 	];
 	let e = {};	e['Ill justified feelings are no less feelings. Feelings that "create problems" rather than "point to a practical solution" are often quite important. Important or not, they are ' +
 		'part of you, and it will not serve you well to uncritically loathe, supress or remove them. Strong negative feelings sit in the middle of complex perceptions and needs. ' +
