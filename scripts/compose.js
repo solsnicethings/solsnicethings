@@ -6,14 +6,14 @@ const CompleteComposeScript = PromiseAnything();
 		let exists = components[name];
 		if (!exists) {
 			exists = document.getElementById(name);
-			if (exists) { exists = { byId: exists, dom: exists }; components[name] = exists; }
+			if (exists) { exists = { byId: exists, hasContents: exists.hasAttribute('replace'), jsprop: { titleElement: null } }; components[name] = exists; }
 		}
 		if (exists)
 		switch (ext) {
 			case 'early': case 'late': case 'forbid': break;
 			case 'html':
 			case 'txt':
-				if (exists.txt || exists.html || exists.byId) return;
+				if (exists.hasContents) return;
 			default:
 				if (exists.forbid || exists[ext]) return;
 				break;
@@ -26,7 +26,9 @@ const CompleteComposeScript = PromiseAnything();
 				return;
 			case 'early': early[name] = name; return;
 			case 'late': late[name] = name; return;
-			case 'html': case 'txt': case 'jsprop': path = fetch(path, { credentials: "omit" }); break;
+
+			case 'html': case 'txt': exists.hasContents = true;
+			case 'jsprop': path = fetch(path, { credentials: "omit" }); break;
 			
 			default:
 				name += ':' + ext;
@@ -118,25 +120,29 @@ const CompleteComposeScript = PromiseAnything();
 				}
 			}
 			
-			scope = jsprop.dependency;
-			if (scope) {
-				if (Array.isArray(scope)) for (const d of scope) await ResolveIntoDom(d);
-				else await ResolveIntoDom(scope);
-			}
+			if (resolver.byId) scope = resolver.byId; else {
 			
-			scope = jsprop.tryscope;
-			if (scope) scope = await ResolveIntoDom(scope);
-			
-			if (!scope) {
-				scope = jsprop.scope;
+				scope = jsprop.dependency;
 				if (scope) {
-					scope = await ResolveIntoDom(scope);
-					if (!scope) {
-						if (scope === null) { resolver.dom = null; newResolution = true; }
-						return;
-					}
+					if (Array.isArray(scope)) for (const d of scope) await ResolveIntoDom(d);
+					else await ResolveIntoDom(scope);
 				}
-				else scope = document.body;	
+				
+				scope = jsprop.tryscope;
+				if (scope) scope = await ResolveIntoDom(scope);
+				
+				if (!scope) {
+					scope = jsprop.scope;
+					if (scope) {
+						scope = await ResolveIntoDom(scope);
+						if (!scope) {
+							if (scope === null) { resolver.dom = null; newResolution = true; }
+							return;
+						}
+					}
+					else scope = document.body;	
+				}
+			
 			}
 		} finally { resolver.activetask = false; }
 		
@@ -147,8 +153,11 @@ const CompleteComposeScript = PromiseAnything();
 			if (resolver.getdoc) return resolver.dom = AddDocument(resolver.getdoc, true);
 		}
 		
-		let dom = jsprop.containerElement;
-		if (dom) dom = document.createElement(dom); else dom = document.createElement('fetched');
+		let dom = resolver.byId;
+		if (!dom) {
+			dom = jsprop.containerElement;
+			if (dom) dom = document.createElement(dom); else dom = document.createElement('fetched');
+		}
 		
 		if (jsprop.titleText === undefined) jsprop.titleText = component;
 		
