@@ -171,58 +171,6 @@ function RunWhenLoaded(e, n = document) {
 	n.addEventListener("load", e);
 }
 
-RunWhenDomReady(async function () { if (!await TechObserveTriggerRule()) return;
-	let purgenotifs = document.createElement('action');
-	purgenotifs.innerText = 'purge diagnostic messages';
-	purgenotifs.addEventListener('click', x => {
-		x = component_registry['diagnostic:observer'];
-		if (x) x.disconnect();
-		for (;;) {
-			x = document.querySelector('.diagnostic');
-			if (!x) return;
-			x.parentNode.removeChild(x);
-		}
-	});
-	document.body.appendChild(purgenotifs);
-	document.addEventListener('change', e => {
-		//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
-		//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
-		e = e.target;
-		if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
-			!e.parentNode.hasAttribute('for') &&
-			e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
-			switch (e.getAttribute('type'))
-			{
-				case 'radio': case 'checkbox':
-					if (e.checked) e.parentNode.setAttribute('input-checked', '');
-					else e.parentNode.removeAttribute('input-checked');
-			}
-		
-	});
-		
-	CompleteComposeScript.chainThen(()=>{
-		let e = document.createElement('a');
-		e.className = 'helplink unbed';
-		e.setAttribute("href", "?reload");
-		e.innerText = 'Reload page components';
-		e.style['float'] = 'right';
-		document.body.insertBefore(e, document.body.firstElementChild);
-		e = document.querySelector('body > footer:last-of-type');
-		if (e) e.insertBefore(purgenotifs, e.firstElementChild);
-		
-		if (urlSearchParams.has('embedded')) {
-			document.body.classList.add('embedded');
-			if ( parent ) {
-				InformParent( { height: getComputedStyle(document.documentElement).height });
-				let o = new ResizeObserver(entries => {
-					InformParent( { height: getComputedStyle(document.documentElement).height });
-				});
-				o.observe(document.documentElement, { box: "border-box" });
-			}
-		}
-	});
-});
-
 let post_listeners;
 
 function ListenForPostMessage(source, callback, origin) {
@@ -416,3 +364,55 @@ async function PerformAsFetchProxyAnsweringMachine(data, connection, recollectio
 	}
 	
 })());
+
+RunWhenDomReady(async function () { if (!await TechObserveTriggerRule()) return;
+	let purgenotifs = document.createElement('action');
+	purgenotifs.innerText = 'purge diagnostic messages';
+	purgenotifs.addEventListener('click', x => {
+		x = component_registry['diagnostic:observer'];
+		if (x) x.disconnect();
+		for (;;) {
+			x = document.querySelector('.diagnostic');
+			if (!x) return;
+			x.parentNode.removeChild(x);
+		}
+	});
+	document.body.appendChild(purgenotifs);
+	document.addEventListener('change', e => {
+		//label:not([for]) > input[type="radio"]:first-of-type:last-of-type,
+		//label:not([for]) > input[type="checkbox"]:first-of-type:last-of-type	
+		e = e.target;
+		if (e.tagName == 'INPUT' && e.parentNode.tagName == 'LABEL' &&
+			!e.parentNode.hasAttribute('for') &&
+			e.parentNode.querySelector(':scope > input:first-of-type:last-of-type'))
+			switch (e.getAttribute('type'))
+			{
+				case 'radio': case 'checkbox':
+					if (e.checked) e.parentNode.setAttribute('input-checked', '');
+					else e.parentNode.removeAttribute('input-checked');
+			}
+		
+	});
+		
+	CompleteComposeScript.chainThen(()=>{
+		let e = document.createElement('a');
+		e.className = 'helplink unbed';
+		e.setAttribute("href", "?reload");
+		e.innerText = 'Reload page components';
+		e.style['float'] = 'right';
+		document.body.insertBefore(e, document.body.firstElementChild);
+		e = document.querySelector('body > footer:last-of-type');
+		if (e) e.insertBefore(purgenotifs, e.firstElementChild);
+		
+		if (urlSearchParams.has('embedded')) {
+			document.body.classList.add('embedded');
+			if ( parent ) {
+				InformParent( { height: getComputedStyle(document.documentElement).height });
+				let o = new ResizeObserver(entries => {
+					InformParent( { height: getComputedStyle(document.documentElement).height });
+				});
+				o.observe(document.documentElement, { box: "border-box" });
+			}
+		}
+	});
+});
