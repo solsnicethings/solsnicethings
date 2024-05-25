@@ -3,16 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>Hjelphjelp (we try to help one another)</title>
+<title>Hjelphjelp (Not Search Engine Optimised)</title>
 
 <link href="/css/standard.css" rel="stylesheet" type="text/css" />
 
 <script src="/scripts/config.js"></script>
+<script>
+	HaltTechSelfExecute();
+	if (document) document.title = 'Hjelphjelp - ' + urlSearchParams.get('pagesource');
+</script>
 <script src="/scripts/tech.js"></script>
-<script src="/scripts/compose.js"></script>
+<script>RunWhenDomReady(() => {
+	document.title = 'Hjelphjelp - ' + urlSearchParams.get('pagesource');
+	let js = document.createElement('script');
+	js.setAttribute('src', '/scripts/compose.js');
+	js.addEventListener('load', () => { CompleteTechSelfExecute(); });
+	document.head.appendChild(js);
+});</script>
 
 </head>
-<body class=home>
+<body>
 <div class="loadmsg alonely"></div>
 </body>
 </html>

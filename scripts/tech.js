@@ -103,7 +103,8 @@ function ShowDiagnostic(message, elementTypeOverride = 'diagnostic') {
 	e.className = 'diagnostic';
 	e.innerText = message;
 	//RunWhenDomReady(()=>{document.body.insertBefore(e, document.querySelector('body > footer:last-of-type'))});
-	RunWhenDomReady(()=>{
+	RunWhenDomReady(() => {
+				
 		document.body.appendChild(e);
 		let o = component_registry['diagnostic:observer'];
 		if (!o) { component_registry['diagnostic:observer'] = o = new MutationObserver( () => {
@@ -170,7 +171,7 @@ function RunWhenLoaded(e, n = document) {
 	n.addEventListener("load", e);
 }
 
-RunWhenDomReady(()=>{
+RunWhenDomReady(async function () { if (!await TechObserveTriggerRule()) return;
 	let purgenotifs = document.createElement('action');
 	purgenotifs.innerText = 'purge diagnostic messages';
 	purgenotifs.addEventListener('click', x => {
