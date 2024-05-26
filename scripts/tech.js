@@ -397,7 +397,7 @@ RunWhenDomReady(async function () { if (!await TechObserveTriggerRule()) return;
 	CompleteComposeScript.chainThen(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink unbed';
-		#urlSearchParams.set('reload');
+		//urlSearchParams.set('reload');
 		if (urlSearchParams.has('reload')) e.setAttribute("href", '?' + urlSearchParams);
 		else if (urlSearchParams.size) e.setAttribute("href", '?reload&' + urlSearchParams);
 		else e.setAttribute('href', '?reload');
