@@ -397,7 +397,8 @@ RunWhenDomReady(async function () { if (!await TechObserveTriggerRule()) return;
 	CompleteComposeScript.chainThen(()=>{
 		let e = document.createElement('a');
 		e.className = 'helplink unbed';
-		e.setAttribute("href", "?reload");
+		urlSearchParams.set('reload');
+		e.setAttribute("href", '?' + urlSearchParams);
 		e.innerText = 'Reload page components';
 		e.style['float'] = 'right';
 		document.body.insertBefore(e, document.body.firstElementChild);
