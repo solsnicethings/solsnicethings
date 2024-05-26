@@ -2,7 +2,7 @@
 	
 	let dom = component_registry[document.currentScript];
 	dom = component_registry[dom].dom;
-	dom.className = 'concealer';
+	dom.className = 'concealer turnOnOnly';
 	dom.innerText = 'NO COOKIES! But I accept that something is to be stored (on my computer).';
 	
 	dom.appendChild(document.createElement('input')).setAttribute('type','checkbox');
