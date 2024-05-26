@@ -24,7 +24,7 @@
 	
 	{
 		let fallback = config.appendChild(document.createElement('a'));
-		fallback.setAttribute('href', '/config.html?scope=' + encodeURIComponent(location.pathname));
+		fallback.setAttribute('href', '/config.html?pagesource=Configuration&scope=' + encodeURIComponent(location.pathname));
 		fallback.innerText = 'Go to configuration page (IFRAME not supported)';
 	}
 	{
