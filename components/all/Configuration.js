@@ -17,7 +17,7 @@
 				config.style.height = data.height;
 			} else return PerformAsFetchProxyAnsweringMachine(data, connection, recollection);
 		}));
-		config.setAttribute('src', '/config.html?embedded&scope=' + encodeURIComponent(location.pathname));
+		config.setAttribute('src', '/template.html?embedded&pagesource=Configuration&scope=' + encodeURIComponent(location.pathname));
 	};
 	
 	dom.addEventListener('click', clck);
