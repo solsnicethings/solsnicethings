@@ -117,7 +117,8 @@ const CompleteComposeScript = PromiseAnything();
 						jsprop = { containerElement: null, requiresContents: true, titleElement: null };
 						break;
 					default:
-						jsprop = { scope: 'main', query: 'td:not(:first-child:not(:empty))', titleElement: 'btn' , writenameattribute: 'activator' };
+						jsprop = { scope: 'main', query: 'td:not(:first-child:not(:empty))', titleElement: 'btn' , writenameattribute: 'activator',
+									skipContainerIfPlacedInHead: true	};
 				}
 			}
 			
@@ -174,9 +175,12 @@ const CompleteComposeScript = PromiseAnything();
 				 if (jsprop.scope == 'main') jsprop.titleElement = 'h3'; else jsprop.titleElement = 'h2';
 		}
 		if (jsprop.titleElement) dom.insertBefore(document.createElement(jsprop.titleElement), dom.firstChild).innerText = jsprop.titleText;
-		if (resolver.getdoc) { AddDocument(resolver.getdoc, true, dom, true); }
+		if (resolver.getdoc) {
+			if (AddDocument(resolver.getdoc, true, dom, true).parentNode == document.head && jsprop.skipContainerIfPlacedInHead)
+				dom = null;
+		}
 		
-		if (jsprop.containerElement === null) dom = dom.firstChild;
+		if (dom && jsprop.containerElement === null) dom = dom.firstChild;
 		if (jsprop.writenameattribute) resolver.writenameattribute = jsprop.writenameattribute;
 
 		resolver.dom = dom;
