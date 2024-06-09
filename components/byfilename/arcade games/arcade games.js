@@ -1,4 +1,4 @@
-var keyStates = [];
+var keyStates = {};
 	// reassign keyStates to clear unconsumed keypresses (doesn't stop keyboard events from firing based on already held buttons)
 
 const keyInactive = 0, keyPressed = 1, keyHeld = 2, keyReleased = 4, keyConsumed = 8;
@@ -51,7 +51,7 @@ function keyEventToKeyId(e) {
 	};
 	
 	document.addEventListener('keyup', e => {
-		if (e.metaKey) keyStates = [];
+		if (e.metaKey) keyStates = {};
 		else
 		{
 			e = keyEventToKeyId(e);
@@ -64,7 +64,7 @@ function keyEventToKeyId(e) {
 		signalKeyAwaiter();
 	});
 	document.addEventListener('keydown', e => {
-		if (e.metaKey) keyStates = [];
+		if (e.metaKey) keyStates = {};
 		else if (e.repeat) {
 			e = keyEventToKeyId(e);
 			if (keyStates[e] == keyPressed) keyStates[e] = keyHeld | keyPressed;
@@ -102,6 +102,23 @@ function checkKey(keyId) {
 	consumeKey(keyId);
 	if (s && !(s & keyReleased)) return s;
 	return keyInactive;
+}
+
+function consumeKeys() {
+	// consume key, but returning all keys that would report as pressed/held, or null if there are none
+	// data returned as a n object with key ids as properties and values combining key... pressed|held|released
+	
+	let result = null;
+	
+	for (const key in keyStates) {
+		let s = keyStates[key];
+		if (s && !(s & keyConsumed))
+			if (result) result[key] = s;
+			else result = { key: s };
+	}
+	
+	keyStates = {};
+	return result;
 }
 
 async function awaitKeys(keys, awaitPress = true, awaitRelease) {
