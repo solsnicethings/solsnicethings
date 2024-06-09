@@ -23,7 +23,7 @@ const keyInactive = 0, keyPressed = 1, keyHeld = 2, keyReleased = 4, keyConsumed
 */
 
 
-function keyEventToKeyId(e {
+function keyEventToKeyId(e) {
 	switch (e.location) {
 		case 1: return 'LEFT ' + e.code;
 		case 2: return 'RIGHT ' + e.code;
