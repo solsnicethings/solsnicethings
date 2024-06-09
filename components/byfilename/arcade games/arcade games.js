@@ -1,7 +1,99 @@
-var keyStates = {};
+var keyStates;
 	// reassign keyStates to clear unconsumed keypresses (doesn't stop keyboard events from firing based on already held buttons)
 
 const keyInactive = 0, keyPressed = 1, keyHeld = 2, keyReleased = 4, keyConsumed = 8;
+
+let currentKeyboardEventHandler;
+
+	/* eventprefix includes the colon
+	{
+		"meta": (keyboardEvent) => keyStates is about to be reset because windows key
+		"any": (keyboardEvent) => any keyboard event
+		"press:KeyRight": (keyboardEvent) => only when named key is pressed
+		"repeat:KeyRight": ... => only on repeat fires of keydown
+		"hold:KeyRight": ... => initial and repeat keydown
+		"release:KeyRight": ... => keyup
+		"KeyRight": ... => every keyup and keydown
+		
+		Only the most precise handler is used
+			(max precision: press / repeat / release > mid precision: hold > min precision: no qualifier)
+			
+		Calling preventDefault() causes the keyStates for the press to be consumed
+	}
+	*/
+	
+(( () => {
+	
+	let filterExclude , filterSelection ;
+	
+	window.setMonitoredKeys(selection, excludeSelected) {
+		// keyStates only tracks monitored keys; either those in selection, or if excludeSelected is true, those not in selection
+		// tracked keys have their default prevented and get stopPropagation called at the document node
+		// this filter does not affect whether a key/event specific handler is called and passed the keyboard event
+		// calling this funtion rests keyStates without issuing any events
+		
+		if (!selection) selection = [];
+		else if (!Array.isArray(selection)) selection = [selection];
+		
+		filterExclude = excludeSelected;
+		filterSelection = selection;
+		keyStates = {};
+	};
+	
+	setMonitoredKeys([], true); // monitor all, deny all default operations that have not already occurred
+		
+	window.monitorKeyEvent = (eventprefix, rawEvent, handler = currentKeyboardEventHandler) => {
+		if (e.metaKey) {
+			if (handler) {
+				handler = handler['meta'];
+				if (handler) handler(rawEvent);
+			}
+			keyStates = {};
+			return;
+		}
+		
+		let id = keyEventToKeyId(rawEvent), h;
+		
+		if (handler && !rawEvent.defaultPrevented) {
+			h = handler[eventprefix + id];
+			if (!h)
+			{
+				if (eventprefix == 'release:') h = handler[id] ?? handler['any'];
+				else h = handler['hold:' + id] ?? handler[id] ?? handler['any'];
+			}
+			if (h) h(rawEvent);
+		}
+		
+		if (filterSelection.indexOf(id) < 0 && filterSelection(rawEvent.code) < 0) {
+			if (!filterExclude) return false;
+		} else if (filterExclude) return false;
+		
+		switch (eventprefix) {
+			case 'release:':
+				h = keyStates[id];
+				if (h) {
+					if (h & keyConsumed) keyStates[id] = keyInactive;
+					else keyStates[id] = h | keyReleased;
+				}
+				break;
+			case 'repeat:':			
+				keyStates[id] = keyStates[id] == keyPressed ? ( keyHeld | keyPressed ) : keyHeld;
+				break;
+			default:
+				keyStates[id] = keyPressed;
+				break;
+				
+		}
+			
+		if (rawEvent.defaultPrevented) consumeKey(id);
+		else rawEvent.preventDefault();
+		rawEvent.stopPropagation();
+		
+		return true;
+	};
+	
+} )());
+
 
 /* valid states:
 		inactive - not pressed
@@ -22,7 +114,6 @@ const keyInactive = 0, keyPressed = 1, keyHeld = 2, keyReleased = 4, keyConsumed
 		
 */
 
-
 function keyEventToKeyId(e) {
 	switch (e.location) {
 		case 1: return 'LEFT ' + e.code;
@@ -38,11 +129,9 @@ function keyEventToKeyId(e) {
 	let signaled = false;
 	
 	let signalKeyAwaiter = () => {
-		if (signaled) return;
-		if (keyAwaiter) {
-			signaled = true;
-			setTimeout(() => { signaled = false; let e = keyAwaiter; keyAwaiter = null; e.resolveIt(); }, 0);
-		}
+		if (signaled || !keyAwaiter) return;
+		signaled = true;
+		setTimeout(() => { signaled = false; let e = keyAwaiter; keyAwaiter = null; e.resolveIt(); }, 0);
 	}
 	
 	window.getKeyAwaitable = () => {
@@ -51,27 +140,10 @@ function keyEventToKeyId(e) {
 	};
 	
 	document.addEventListener('keyup', e => {
-		if (e.metaKey) keyStates = {};
-		else
-		{
-			e = keyEventToKeyId(e);
-			let s = keyStates[e];
-			if (s) {
-				if (s & keyConsumed) keyStates[e] = keyInactive;
-				else keyStates[e] = s | keyReleased;
-			}
-		}
-		signalKeyAwaiter();
+		if (monitorKeyEvent('release:', e)) signalKeyAwaiter();
 	});
 	document.addEventListener('keydown', e => {
-		if (e.metaKey) keyStates = {};
-		else if (e.repeat) {
-			e = keyEventToKeyId(e);
-			if (keyStates[e] == keyPressed) keyStates[e] = keyHeld | keyPressed;
-			else keyStates[e] = keyHeld;
-		}
-		else keyStates[keyEventToKeyId(e)] = keyPressed;
-		signalKeyAwaiter();
+		if (monitorKeyEvent(e.repeat ? 'repeat:' : 'press:', e)) signalKeyAwaiter();
 	});
 	
 } )());
