@@ -22,9 +22,13 @@
 	
 	dom.classList.add('clickentrylist');
 	dom.addEventListener('click', e => {
+		if (e.target.parentElement != dom) {
+			if (!ShouldProceedWithBug()) return;
+		}
 		let x = main.firstElementChild;
-		if (x) { main.insertBefore(e.target, x); dom.appendChild(x); }
-		else main.appendChild(e.target);	
+		if (x) { x.dispatchEvent(new Event('deactivate');  main.insertBefore(e.target, x); dom.appendChild(x); }
+		else main.appendChild(e.target);
+		e.target.dispatchEvent(new Event('activate'));
 	});
 	
 })());

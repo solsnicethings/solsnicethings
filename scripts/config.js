@@ -6,7 +6,13 @@ const github_repo = github_user + '.github.io';
 const component_registry = {};
 const urlSearchParams = new URLSearchParams(location.search);
 
-let tech_trigger = 'allow';
+var tech_trigger = 'allow';
+
+function ShouldProceedWithBug() {
+	// creates/shows the bug explainer tool if needed
+	// returns true if the bug should happen
+	return false;
+}
 
 function DisallowTechSelfExecute() { tech_trigger = 'forbid'; }
 function HaltTechSelfExecute() { tech_trigger = 'delay'; }

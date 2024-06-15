@@ -239,3 +239,13 @@ async function awaitKeys(keys, awaitPress = true, awaitRelease) {
 	for (const keyId of keys) consumeKey(keyId);	
 	return detected;
 }
+
+function createMenu(options, optionHtmlGenerator, containerElement = 'table') {
+	if (typeof containerElement === "string") containerElement = document.createElement(containerElement);
+	for (const opt of options) {
+		let o;
+		
+		if (optionHtmlGenerator) o = optionHtmlGenerator(opt);
+		if (o === undefined)
+	}
+}
