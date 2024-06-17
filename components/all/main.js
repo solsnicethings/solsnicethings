@@ -26,7 +26,7 @@
 			if (!ShouldProceedWithBug()) return;
 		}
 		let x = main.firstElementChild;
-		if (x) { x.dispatchEvent(new Event('deactivate');  main.insertBefore(e.target, x); dom.appendChild(x); }
+		if (x) { x.dispatchEvent(new Event('deactivate'));  main.insertBefore(e.target, x); dom.appendChild(x); }
 		else main.appendChild(e.target);
 		e.target.dispatchEvent(new Event('activate'));
 	});
