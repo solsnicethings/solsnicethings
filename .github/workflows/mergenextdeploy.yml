@@ -25,20 +25,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  
-  importnice:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: CheckoutNice
         uses: actions/checkout@v4
         with:
           repository: solsnicethings/solsnicethings.github.io
           path: ./stage-nice
-  
-  importnext:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
+      - name: CheckoutNext
         uses: actions/checkout@v4
         with:
           repository: solsnicethings/solsnextthings
@@ -47,12 +42,6 @@ jobs:
         run: |
           rm -f -r ./stage-next/.git
           cp -l -r ./stage-next ./
-  build:
-    runs-on: ubuntu-latest
-    needs: [importnice, importnext]
-    steps:
-      - name: Merge
-        run: |
           rm -f -r ./stage-nice/.git
           cp -l -r ./stage-nice ./
       - name: Detect package manager
