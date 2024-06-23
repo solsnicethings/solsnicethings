@@ -26,6 +26,12 @@ jobs:
         run: pwd
       - id: step2
         run: ls
+      - id: step3
+        run: which node
+      - id: step3b
+        run: which npm
+      - id: step3c
+        run: which next
       - id: step4
         if: always()
         run: echo ${{ github.workspace }}
