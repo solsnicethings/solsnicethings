@@ -26,3 +26,9 @@ jobs:
         run: pwd
       - id: step2
         run: ls
+      - id: step3
+        run: echo ${ github.workspace }
+      - id: step4
+        run: echo ${{ github.workspace }}
+      - id: step5
+        run: echo "${{ github.workspace }}"
