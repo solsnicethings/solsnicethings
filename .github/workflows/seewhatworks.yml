@@ -25,7 +25,7 @@ jobs:
       - id: step1
         run: pwd
       - id: step2
-        run: ls
+        run: echo "${{ github.workspace }}/yarn.lock"
       - id: step3
         run: which node
       - id: step3b
