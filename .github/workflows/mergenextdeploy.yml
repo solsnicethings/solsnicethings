@@ -43,7 +43,7 @@ jobs:
           rm -f -r ./stage-next/.git*
           cp -r -l --copy-contents ./stage-next/. ./
           rm -f -r ./stage-nice/.git*
-          cp -r -l --copy-contents ./stage-nice/. ./
+          cp -r -l --copy-contents ./stage-nice/. ./pages/
       - name: Detect package manager
         id: detect-package-manager
         run: |
