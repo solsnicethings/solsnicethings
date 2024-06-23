@@ -13,7 +13,6 @@ function mkdir(path, options = { recursive: true }) {
 const filesToMake = {};
 
 function makesitemap(srcpath = root, bldpath = indexroot, exclusions = [ path.basename(scriptfile) ]) {
-	mkdir(bldpath);
 	const index = [];
 	for (const e of fs.readdirSync(srcpath)) {
 		if (exclusions && exclusions.indexOf(e) >= 0) continue;
