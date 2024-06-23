@@ -1,0 +1,227 @@
+/* do not worry about the initial error message caused by an unnecessary hack!
+@set oldboast=I started doing this when the .cmd-extension was new
+@set smartboast=I am not actually using this script
+@set clarify=I use one like it for local tests and have a different autobuild in github
+
+set "sourceroot=%~dp0.."
+set "stage=%~dp0stage"
+set "repo=%~dp0repo"
+set failure=
+set failurehasoccurred=0
+
+@set buildflag_doNotLaunchBuilders=0
+
+:getflag
+if NOT "%~1"=="" (
+	set "buildflag_%~1=1"
+@	shift /1
+@	goto :getflag
+)
+
+rmdir /Q /S "%stage%"
+mkdir "%stage%\components\byfilename\programming info"
+copy %0 "%stage%\components\byfilename\programming info\%~nx0.txt"
+
+@echo silencing the script
+for /F "usebackq tokens=3" %%E IN (`echo`) DO set echostate=%%E
+echo off
+set echostate=%echostate:.=%
+
+call :copysource solsnicethings
+call :nextbuildsource next-react-gamecomponents
+
+echo %echostate%
+
+@if NOT %failurehasoccurred%==0 (
+	echo %failure%
+	exit /B %failurehasoccurred%
+)
+
+node %0 %stage% %repo% config\index.json
+goto :eof
+
+:nextbuildsource
+@if NOT %failurehasoccurred%==0 goto :eof
+pushd "%sourceroot%\%~1"
+@if errorlevel 1 (
+	popd
+	set failurehasoccurred=3
+	set failure=Failed to access directory %1
+	exit /B
+)
+@if %buildflag_doNotLaunchBuilders%==0 call next build
+@if errorlevel 1 (
+	popd
+	set failurehasoccurred=6
+	set failure=Failed to build %1 with next
+	exit /B
+)
+del "out\404.html"
+@rem for /F "usebackq delims=" %%I IN (`dir /B /A:D out\_next`) DO if NOT "%%~I"=="static" rmdir /Q /S "out\_next\%%~I"
+@rem for /F "usebackq delims=" %%I IN (`dir /B /A:D out\_next\static`) DO if NOT "%%~I"=="chunks" rmdir /Q /S "out\_next\static\%%~I"
+popd
+call :copysource "%~1\out"
+@goto :eof
+
+:copysource
+@if NOT %failurehasoccurred%==0 goto :eof
+@if "%~2"=="" (
+	call :copysource "%sourceroot%\%~1" "%stage%"
+	goto :eof
+)
+@call :notdot %1
+@if %dot%==1 goto :eof
+@if not exist %2 mkdir %2
+@for /F "usebackq delims=" %%D IN (`dir /A:D /B %1`) DO call :copysource "%~1\%%~D" "%~2\%%~D"
+@if NOT %failurehasoccurred%==0 goto :eof
+@if errorlevel 1 (
+	set failurehasoccurred=4
+	set failure=error in dir /A:D %1
+	exit /B
+)
+@for /F "usebackq delims=" %%F IN (`dir /A:-D /B %1`) DO @call :trycopy "%~1\%%~F" "%~2\%%~F"
+@if errorlevel 1 (
+	set failurehasoccurred=5
+	set failure=error in dir /A:-D %1
+)
+@goto :eof
+
+:trycopy
+@if NOT %failurehasoccurred%==0 goto :eof
+@call :notdot %1
+@if %dot%==1 goto :eof
+@if EXIST %2 (
+	set failurehasoccurred=1
+	set failure=Conflict for %2
+	exit /B
+)
+copy %1 %2
+@if errorlevel 1 (
+	set failurehasoccurred=2
+	set failure=copy %1 failed
+	exit /B
+)
+@goto :eof
+
+:notdot
+@set dot="%~nx1"
+@if "%dot:~1,1%"=="." (
+	set dot=1
+) else set dot=0
+goto :eof
+
+:testExitB
+echo testing the use of a script exit in nested calls
+call :testExitNestedB
+echo I guess it did not
+goto :eof
+
+:testExitNestedB
+echo using exit /B in this nested context, will it terminate the whole script
+exit /B
+
+*/
+
+const { argv } = require('node:process');
+const path = require('path');
+const fs = require('fs');
+
+argv.forEach((val, index) => {
+  console.log(`${index}: ${val}`);
+});
+
+const stage = argv[2];
+const repo = argv[3];
+const indexpath = path.join(repo, argv[4]);
+
+console.log(`stage: ${stage}\nrepo: ${repo}\nindexpath: ${indexpath}`);
+function mkdir(path, options = { recursive: true }) {
+	if (!fs.statSync(path, {throwIfNoEntry: false})?.isDirectory()) fs.mkdirSync(path, options);
+}
+mkdir(repo);
+
+let oldindex;
+try { oldindex = require(indexpath); }
+catch { oldindex = {}; } 
+
+const index = { };
+const addedfiles = [];
+
+function mergetree(src = stage, dest = repo, webpath= '')
+{
+	const container = index[webpath] || (index[webpath] = {});
+
+	for (const e of fs.readdirSync(src)) {
+		const s = path.join(src, e);
+		const d = path.join(dest, e);
+		const k = e.toLowerCase();
+		const p = webpath + '/' + e;
+		let o = container[k];
+		
+		if (fs.statSync(s).isDirectory()) {
+
+			if (o) {
+				if (o.type != 'directory')
+					throw `directory/${o.type} conflict on ${p}`;
+				if (o.path != p)
+					throw `directory name conflict ${o.path}!=${p}`;
+			} else {
+				container[k] = {
+					type: 'directory',
+					path: p
+				};
+				mkdir(d);
+			}
+
+			mergetree(s, d, p);
+			addedfiles.push(p);
+
+		} else {
+			if (o) throw `file ${p} conflicts with ${o.path}`;
+			fs.copyFileSync(s, d);
+			addedfiles.push(p);
+			container[k] = {
+				type: 'file',
+				path: p
+			};
+		}
+	}
+}
+
+mergetree();
+mkdir(path.dirname(indexpath));
+fs.writeFileSync(indexpath, JSON.stringify(index));
+fs.rmSync(indexpath + '-chunks', { force: true, recursive: true });
+for (const k in index) {
+	if (!k) continue;
+	const p = path.join(indexpath + '-chunks', k.substring(1)) + '.json';
+	mkdir(path.dirname(p));
+	const o = [];
+	const l = index[k];
+	for (const e in l) {
+		o.push(l[e]);
+	}
+	fs.writeFileSync(p, JSON.stringify(o));
+}
+
+
+const rmdirlist = [];
+for (const k in oldindex) {
+	const l = oldindex[k];
+	const n = index[k] ?? {};
+	for (const e in l) {
+		if (n[e]) continue;
+		f = path.join(repo, l[e].path);
+		if (addedfiles.indexOf(f) < 0) {
+			let s = fs.statSync(f, {throwIfNoEntry: false});
+			if (!s) continue;
+			if (s.isDirectory()) rmdirlist.push(f);
+			else { console.log('deleting: ' + f); fs.rmSync(f); }
+		}
+	}	
+}
+
+for (const f of rmdirlist) {
+	console.log('removing if empty: ' + f);
+	try { fs.rmdirSync(f); } catch {}
+}
