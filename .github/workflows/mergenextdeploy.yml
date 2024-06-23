@@ -46,7 +46,7 @@ jobs:
       - name: Merge
         run: |
           rm -f -r ./stage-next/.git
-          cp -l ./stage-next ./
+          cp -l -r ./stage-next ./
   build:
     runs-on: ubuntu-latest
     needs: [importnice, importnext]
@@ -54,7 +54,7 @@ jobs:
       - name: Merge
         run: |
           rm -f -r ./stage-nice/.git
-          cp -l ./stage-nice ./
+          cp -l -r ./stage-nice ./
       - name: Detect package manager
         id: detect-package-manager
         run: |
