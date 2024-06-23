@@ -23,6 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: step1
-        run: echo "test=hello"
+        run: pwd
       - id: step2
-        run: echo "test=world"
+        run: ls
