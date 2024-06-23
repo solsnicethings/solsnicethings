@@ -5,7 +5,7 @@ async function FetchFileList(path, exceptionHandler, fileType = 'file') {
 	let response = filelists[path];
 	
 	if (!response) {
-		const r = path ? '/' + path + '/' : '/';
+		const r = path ? /\/{2,}/g.replace('/' + path + '/', '/') : '/';
 		response = await fetch('/sitemap' + r + '_.json', { credentials: "omit" });
 		if (response.ok) {
 			filelists[path] = response = (await response.json()).map(e => {
