@@ -1,21 +1,34 @@
+const filelists = {}
+
 async function FetchFileList(path, exceptionHandler, fileType = 'file') {
 	
-	const response = await fetch('https://api.github.com/repos/' + github_user + '/' + github_repo + '/contents/' + path, { credentials: "omit" });
+	let response = filelists[path];
 	
-	if (!response.ok) {
-			if (exceptionHandler) exceptionHandler(response);
-			else {
-				exceptionHandler = ShowDiagnostic(response.status, 'errormsg');
-				response.json().then(result => { if (result.message) exceptionHandler.innerText += ': ' + result.message; });
-			}
-			return;
+	if (!response) {
+		response = await fetch('/config/index.json-chunks/' + path + '.json', { credentials: "omit" });
+		if (response.ok) {
+			filelists[path] = response = await response.json();
+		} else response = null;
 	}
 	
-	const data = await response.json();	
+	if (!response) {
+		response = await fetch('https://api.github.com/repos/' + github_user + '/' + github_repo + '/contents/' + path, { credentials: "omit" });
+	
+		if (!response.ok) {
+				if (exceptionHandler) exceptionHandler(response);
+				else {
+					exceptionHandler = ShowDiagnostic(response.status, 'errormsg');
+					response.json().then(result => { if (result.message) exceptionHandler.innerText += ': ' + result.message; });
+				}
+				return;
+		}
+		
+		filelists[path] = response = await response.json();	
+	}
 	
 	let filelist = [];
 	
-	for (let file of data) {
+	for (let file of response) {
 		if (file.type == fileType || !fileType) {
 			file = file.path;
 			if (!file.startsWith('/')) file = '/' + file;

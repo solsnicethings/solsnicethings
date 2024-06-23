@@ -1,0 +1,138 @@
+Been advised to learn react (and everything else).
+Checked out a tutorial. Legacy one, but I was intrigued anyway.
+Completed the tic-tac-toe.
+Deviated in small ways, because some of the things the tutorial asked me to implement I prefer to implement differently.
+	Actually, no... the real reason is that I get more confirmation of my understanding out of being able to apply what I consider to be improvements.
+	
+The actual tutorial:
+
+	https://legacy.reactjs.org/tutorial/tutorial.html
+	(I have since moved on to https://react.dev/learn/tutorial-tic-tac-toe )
+
+Here is my final code:
+// SADLY, none of my deviations pertain to anything react-specific, they're all tiny adjustments in the more general realms of javascript & programming
+// but it's ok, I ran the tutorial to figure out if I could honestly say react is going to be easy (I kind of knew)
+
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
+
+class Board extends React.Component {
+  
+  renderSquare(i) {
+    return (
+      <Square value={this.props.squares[i]}
+        onClick={()=> this.props.onClick(i) }
+        />
+      );
+  }
+  render() {
+    return (
+      <div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
+    );
+  }
+}
+
+class Game extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      history: [{ squares: Array(9).fill(null) }],
+      xIsNext: true,
+      stepNumber: 0
+    }
+  }
+  handleClick(i) {
+    const history = this.state.history;
+    let newstate = this.state.stepNumber;
+    let squares = history[newstate].squares;
+    if (squares[i] || calculateWinner(squares)) return;
+    squares = squares.slice();
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    
+    newstate += 1;
+
+    this.setState({
+      history: history.slice(0, newstate).concat([{squares: squares}]),
+      stepNumber: newstate,
+      xIsNext: !this.state.xIsNext
+    });
+  }
+  
+  jumpTo(step) {    this.setState({      stepNumber: step,      xIsNext: (step % 2) === 0,    });  }
+  render() {
+    let status = this.state.stepNumber;
+    const history = this.state.history;
+    const squares = history[status].squares;
+     
+    const moves = history.slice(0, status);
+    while (--status > -1) moves[status] = ((time) => {
+        const desc = time ? "Go to move #" + time : "Go to start";
+      return (
+        <li key={time}>
+          <button onClick={() => this.jumpTo(time)}>{desc}</button>
+         </li>
+      );
+    })(status);
+    
+    status = calculateWinner(squares);
+    if (status) status = 'Winner: ' + status; else status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+
+    return (
+      <div className="game">
+        <div className="game-board">
+          <Board squares={squares} onClick={(i)=>this.handleClick(i)} />
+        </div>
+        <div className="game-info">
+          <div>{status}</div>
+          <ol>{moves}</ol>
+        </div>
+      </div>
+    );
+  }
+}
+
+// ========================================
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<Game />);
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
