@@ -265,6 +265,9 @@ const CompleteComposeScript = PromiseAnything();
 		
 		files = {};
 		
+		for (const jumpstart of urlSearchParams.getAll('focus'))
+			if (!late[jumpstart]) await ResolveIntoDom(jumpstart);
+		
 		for (const check in early) if (components[check])
 			if	(late[check]) { a_little_early[check] = check; delete late[check]; }
 			else await ResolveIntoDom(check);
@@ -278,7 +281,13 @@ const CompleteComposeScript = PromiseAnything();
 				}
 			} while (newResolution);
 			
-			if (late) { late = null; continue; }
+			if (late) {
+		
+				for (const jumpstart of urlSearchParams.getAll('focus'))
+					if (late[jumpstart]) await ResolveIntoDom(jumpstart);
+		
+				late = null; continue;
+			}
 			break;
 		}
 		
