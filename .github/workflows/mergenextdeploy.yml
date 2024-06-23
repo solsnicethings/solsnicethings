@@ -40,13 +40,10 @@ jobs:
           path: ./stage-next
       - name: Merge
         run: |
-          ls ./stage-next
-          ls ./stage-nice
           rm -f -r ./stage-next/.git
-          cp -r -l --copy-contents ./stage-next ./
+          cp -v -r --copy-contents ./stage-next ./
           rm -f -r ./stage-nice/.git
-          cp -r -l --copy-contents ./stage-nice ./
-          ls
+          cp -v -r --copy-contents ./stage-nice ./
       - name: Detect package manager
         id: detect-package-manager
         run: |
