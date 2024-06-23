@@ -5,9 +5,13 @@ async function FetchFileList(path, exceptionHandler, fileType = 'file') {
 	let response = filelists[path];
 	
 	if (!response) {
-		response = await fetch('/config/index.json-chunks/' + path + '.json', { credentials: "omit" });
+		const r = path ? '/' + path + '/' : '/';
+		response = await fetch('/sitemap' + r + '_.json', { credentials: "omit" });
 		if (response.ok) {
-			filelists[path] = response = await response.json();
+			filelists[path] = response = (await response.json()).map(e => {
+				if (e.Directory) return { type: 'directory', path: r + e.Directory };
+				return { type: 'file', path: r + e};
+			});
 		} else response = null;
 	}
 	
