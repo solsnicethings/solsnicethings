@@ -29,5 +29,5 @@ makesitemap();
 
 for (const f in filesToMake) {
 	mkdir(f);
-	fs.writeFileSync(path.join(f, '_.json'), JSON.stringify(index));
+	fs.writeFileSync(path.join(f, '_.json'), JSON.stringify(filesToMake[f]));
 }
