@@ -43,9 +43,9 @@ jobs:
           ls ./stage-next
           ls ./stage-nice
           rm -f -r ./stage-next/.git
-          cp -l -r ./stage-next ./
+          cp -r ./stage-next ./
           rm -f -r ./stage-nice/.git
-          cp -l -r ./stage-nice ./
+          cp -r ./stage-nice ./
           ls
       - name: Detect package manager
         id: detect-package-manager
