@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: solsnicethings/solsnicethings
+          repository: solsnicethings/solsnicethings.github.io
           path: ./pages
       - name: Detect package manager
         id: detect-package-manager
