@@ -23,7 +23,7 @@ function makesitemap(srcpath = root, bldpath = indexroot, exclusions = [ path.ba
 		}
 		else index.push(e);
 	}
-	filesToMake[bldPath] = index;
+	filesToMake[bldpath] = index;
 }
 
 makesitemap();
