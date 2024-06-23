@@ -38,12 +38,10 @@ jobs:
         with:
           repository: solsnicethings/solsnextthings
           path: ./stage-next
-      - name: Merge
+      - name: Prebuild
         run: |
           rm -f -r ./stage-next/.git*
           cp -r -l --copy-contents ./stage-next/. ./
-          rm -f -r ./stage-nice/.git*
-          cp -r -l --copy-contents ./stage-nice/. ./pages/
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -89,11 +87,18 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: MergePostBuid
+        run: |
+          rm -f -r ./stage-nice/.git*
+          cp -r -l --copy-contents ./stage-nice/. ./out/
+          if [ -f "${{ github.workspace }}/out/afterbuild.js" ]; then
+            node "${{ github.workspace }}/out/afterbuild.js"
+            rm "${{ github.workspace }}/out/afterbuild.js"
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-
   # Deployment job
   deploy:
     environment:
