@@ -10,7 +10,7 @@ function mkdir(path, options = { recursive: true }) {
 	if (!fs.statSync(path, {throwIfNoEntry: false})?.isDirectory()) fs.mkdirSync(path, options);
 }
 
-const filesToMake {};
+const filesToMake = {};
 
 function makesitemap(srcpath = root, bldpath = indexroot, exclusions = [ path.basename(scriptfile) ]) {
 	mkdir(bldpath);
