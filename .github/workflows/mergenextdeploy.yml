@@ -40,6 +40,8 @@ jobs:
           path: ./stage-next
       - name: Merge
         run: |
+          ls ./stage-next
+          ls ./stage-nice
           rm -f -r ./stage-next/.git
           cp -l -r ./stage-next ./
           rm -f -r ./stage-nice/.git
