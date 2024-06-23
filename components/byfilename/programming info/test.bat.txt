@@ -1,0 +1,166 @@
+set bflg_noBuild=0
+set bflg_noCopy=0
+set bflg_noPostBuild=0
+set bflg_launchOnly=0
+set bflg_noPride=0
+
+:flg
+if NOT "%~1"=="" (
+	set "bflg_%~1=1"
+	shift /1
+	goto :flg
+)
+
+set "container=%~dp0.."
+set "stage=%~dp0stage"
+set "destination=%~dp0assemble"
+set failure=0
+set exitmsg=
+set components=
+set RCARGS=/XD .git* /NFL /NP /NC /E
+
+set "nextbuildhelper=%~dp0nextbuildprep"
+
+if %bflg_launchOnly%==1 goto :launch
+
+if %bflg_noPride%==0 (
+	copy %0 "%container%\solsnicethings\components\byfilename\programming info\%~nx0.txt"
+)
+
+if %bflg_noBuild%==0 (
+	set "buildtarget=%stage%\buildto"
+	set "buildsource=%stage%\buildfrom"
+	rem rmdir /Q /S "%buildtarget%"
+	robocopy "%nextbuildhelper%src" "%nextbuildhelper%" /MIR %RCARGS% 1>NUL
+)
+if %bflg_noCopy%==0 (
+	set "copydir=%stage%\nobuild"
+	rem rmdir /Q /S "%copydir%"
+	rem if %bflg_noBuild%==0 rmdir /Q /S "%buildsource%"
+)
+
+call :nobuild solsnicethings
+call :nextbuild solsnextthings
+
+call :combine %components%
+call :postbuild
+
+@if NOT %failure%==0 goto :fail
+
+:launch
+set exitmsg=Relaunch option %0 launchOnly
+call http-server "%destination%" -a 127.0.0.1 -o
+set failure=%errorlevel%
+
+:fail
+echo %exitmsg%
+exit /B %failure%
+goto :eof
+
+:unteleport
+call :unteleportnext %teleportation%
+goto :eof
+
+:unteleportnext
+if "%~1"=="" goto :eof
+move "%teleportto%\%~1" "%teleportfrom%\%~1"
+@if errorlevel 1 (
+	set failure=%errorlevel%
+	set exitmsg=Failed restoring "%teleportfrom%\%~1"
+)
+shift /1
+goto :unteleportnext
+
+:addteleport
+if NOT %failure%==0 goto :eof
+move "%teleportfrom%\%~1" "%teleportto%\%~1"
+@if errorlevel 1 (
+	set failure=%errorlevel%
+	set exitmsg=Failed moving "%teleportfrom%\%~1"
+	goto :eof
+)
+set teleportation="%~1" %teleportation%
+goto :eof
+
+:teleport
+set teleportation=
+set "teleportfrom=%~1"
+set "teleportto=%~2"
+
+for /F "usebackq delims=" %%O IN (`dir /B %1`) DO if not exist "%~2\%%~O" call :addteleport "%%~O"
+
+goto :eof
+
+:mirror
+if not exist %2 mkdir %2
+robocopy %1 %2 /MIR %RCARGS%
+@if errorlevel 8 (
+	set failure=%errorlevel%
+	set exitmsg=failed mirror to %2
+)
+goto :eof
+
+:nobuild
+if NOT %failure%==0 goto :eof
+set components="%copydir%\%~1" %components%
+if %bflg_noCopy%==0 call :mirror "%container%\%~1" "%copydir%\%~1"
+goto :eof
+
+:nextbuild
+if NOT %failure%==0 goto :eof
+set components="%buildtarget%\%~1" %components%
+if NOT %bflg_noBuild%==0 goto :eof
+if %bflg_noCopy%==0 call :mirror "%container%\%~1" "%buildsource%\%~1"
+if NOT %failure%==0 goto :eof
+pushd "%buildsource%\%~1"
+@if errorlevel 1 (
+	set failure=%errorlevel%
+	set exitmsg=failed pushd "%buildsource%\%~1"
+	goto :eof
+)
+call :teleport "%nextbuildhelper%" "."
+if NOT %failure%==0 goto :eof
+call next build
+@if errorlevel 1 (
+	echo on
+	set failure=%errorlevel%
+	set exitmsg=failed next build %1
+	call :unteleport
+	popd
+	goto :eof
+)
+@echo on
+call :unteleport
+popd
+call :mirror "%buildsource%\%~1\out" "%buildtarget%\%~1"
+goto :eof
+
+:combine
+if "%~1"=="" goto :eof
+if not exist %1 (
+	shift /1
+	goto :combine
+)
+if NOT %failure%==0 goto :eof
+if not exist "%destination%" mkdir "%destination%"
+robocopy %1 "%destination%" /MIR %RCARGS%
+:morecombine
+@if errorlevel 8 (
+	set failure=%errorlevel%
+	set exitmsg=copy %1 to destination failed
+	goto :eof
+)
+shift /1
+if "%~1"=="" goto :eof
+if exist %1 robocopy %1 "%destination%" %RCARGS%
+goto :morecombine
+
+:postbuild
+if NOT %failure%==0 goto :eof
+if NOT %bflg_noPostBuild%==0 goto :eof
+if exist "%destination%\afterbuild.js" node "%destination%\afterbuild.js"
+@if errorlevel 1 (
+	set failure=%errorlevel%
+	set exitmsg=failed postbuild, retry with %0 noBuild noCopy
+)
+goto :eof
