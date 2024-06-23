@@ -41,9 +41,9 @@ jobs:
       - name: Merge
         run: |
           rm -f -r ./stage-next/.git
-          cp -v -r --copy-contents ./stage-next ./
+          cp -v -r -l --copy-contents ./stage-next/. ./
           rm -f -r ./stage-nice/.git
-          cp -v -r --copy-contents ./stage-nice ./
+          cp -v -r -l --copy-contents ./stage-nice/. ./
       - name: Detect package manager
         id: detect-package-manager
         run: |
